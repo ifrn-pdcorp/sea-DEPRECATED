@@ -16,51 +16,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifrn.laj.pdcorp.apisea.models.Evento;
-import br.edu.ifrn.laj.pdcorp.apisea.services.EventoService;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
+import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 
 @RestController
-@RequestMapping("/eventos")
-public class EventoResource {
+@RequestMapping("/events")
+public class EventResource {
 	
 	@Autowired
-	private EventoService eventoService;
+	private EventService eventService;
 	
 	@GetMapping
-	public List<Evento> findAll() {
-		return eventoService.findAll();
+	public List<Event> findAll() {
+		return eventService.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Evento> findById(@PathVariable Long id) {
-		Evento evento = eventoService.findById(id);
-		if (evento == null) {
+	public ResponseEntity<Event> findById(@PathVariable Long id) {
+		Event event = eventService.findById(id);
+		if (event == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(evento);
+		return ResponseEntity.ok(event);
 	}
 
 	@PostMapping
-	public Evento addProduto(@RequestBody @Valid Evento evento) {
-		return eventoService.add(evento);
+	public Event add(@RequestBody @Valid Event event) {
+		return eventService.add(event);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Evento> atualizar(@PathVariable Long id, @RequestBody @Valid Evento evento) {
-		Evento existente = eventoService.findById(id);
-		if (existente == null)
+	public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody @Valid Event event) {
+		Event existent = eventService.findById(id);
+		if (existent == null)
 			return ResponseEntity.notFound().build();
-		BeanUtils.copyProperties(evento, existente, "id");
-		existente = eventoService.update(existente);
-		return ResponseEntity.ok(existente);
+		BeanUtils.copyProperties(event, existent, "id");
+		existent = eventService.update(existent);
+		return ResponseEntity.ok(existent);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> remover(@PathVariable Long id) {
-		Evento evento = eventoService.findById(id);
-		if (evento == null)
+	public ResponseEntity<Void> remove(@PathVariable Long id) {
+		Event event = eventService.findById(id);
+		if (event == null)
 			return ResponseEntity.notFound().build();
-		eventoService.remove(evento);
+		eventService.remove(event);
 		return ResponseEntity.noContent().build();
 	}
 

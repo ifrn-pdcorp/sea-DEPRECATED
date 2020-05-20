@@ -10,29 +10,27 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 @Entity
-public class Evento {
+public class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
-	private String nome;
-	
+	private String name;
+
 	@NotBlank
 	@Lob
-	private String resumo;
-	
+	private String summary;
+
 	private String thumbPath;
-	
+
 	@NotNull
-	private Calendar inicioInscricao;
-	
+	private Calendar subscriptionStart;
+
 	@NotNull
-	private Calendar fimInscricao;
+	private Calendar subscriptionEnd;
 
 	public Long getId() {
 		return id;
@@ -42,20 +40,20 @@ public class Evento {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getResumo() {
-		return resumo;
+	public String getSummary() {
+		return summary;
 	}
 
-	public void setResumo(String resumo) {
-		this.resumo = resumo;
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public String getThumbPath() {
@@ -66,26 +64,26 @@ public class Evento {
 		this.thumbPath = thumbPath;
 	}
 
-	public Calendar getInicioInscricao() {
-		return inicioInscricao;
+	public Calendar getSubscriptionStart() {
+		return subscriptionStart;
 	}
 
-	public void setInicioInscricao(Calendar inicioInscricao) {
-		this.inicioInscricao = inicioInscricao;
+	public void setSubscriptionStart(Calendar subscriptionStart) {
+		this.subscriptionStart = subscriptionStart;
 	}
 
-	public Calendar getFimInscricao() {
-		return fimInscricao;
+	public Calendar getSubscriptionEnd() {
+		return subscriptionEnd;
 	}
 
-	public void setFimInscricao(Calendar fimInscricao) {
-		this.fimInscricao = fimInscricao;
+	public void setSubscriptionEnd(Calendar subscriptionEnd) {
+		this.subscriptionEnd = subscriptionEnd;
 	}
 
 	@Override
 	public String toString() {
-		return "Evento [id=" + id + ", nome=" + nome + ", resumo=" + resumo + ", thumbPath=" + thumbPath
-				+ ", inicioInscricao=" + inicioInscricao + ", fimInscricao=" + fimInscricao + "]";
+		return "Event [id=" + id + ", name=" + name + ", summary=" + summary + ", thumbPath=" + thumbPath
+				+ ", subscriptionStart=" + subscriptionStart + ", subscriptionEnd=" + subscriptionEnd + "]";
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class Evento {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Evento other = (Evento) obj;
+		Event other = (Event) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -112,7 +110,5 @@ public class Evento {
 			return false;
 		return true;
 	}
-	
-	
 
 }
