@@ -55,13 +55,13 @@ public class EventResource {
 		return ResponseEntity.ok(existent);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> remove(@PathVariable Long id) {
+	@PutMapping("/{id}/deactivate")
+	public ResponseEntity<Event> deactivate(@PathVariable Long id) {
 		Event event = eventService.findById(id);
 		if (event == null)
 			return ResponseEntity.notFound().build();
-		eventService.remove(event);
-		return ResponseEntity.noContent().build();
+		event = eventService.deactivate(event);
+		return ResponseEntity.ok(event);
 	}
 
 }

@@ -14,6 +14,6 @@ public interface EventService {
 
 	Event update(Event event);
 
-	void deactivate(Event event);
+	Event deactivate(Event event);
 
 }
