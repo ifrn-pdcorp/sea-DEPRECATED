@@ -32,6 +32,8 @@ public class Event {
 	@NotNull
 	private Calendar subscriptionEnd;
 
+	private boolean active;
+
 	public Long getId() {
 		return id;
 	}
@@ -80,10 +82,19 @@ public class Event {
 		this.subscriptionEnd = subscriptionEnd;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", name=" + name + ", summary=" + summary + ", thumbPath=" + thumbPath
-				+ ", subscriptionStart=" + subscriptionStart + ", subscriptionEnd=" + subscriptionEnd + "]";
+				+ ", subscriptionStart=" + subscriptionStart + ", subscriptionEnd=" + subscriptionEnd + ", active="
+				+ active + "]";
 	}
 
 	@Override

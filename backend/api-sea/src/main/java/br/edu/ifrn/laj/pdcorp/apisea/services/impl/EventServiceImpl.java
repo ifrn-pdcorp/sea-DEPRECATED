@@ -18,6 +18,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Event add(Event event) {
+		event.setActive(true);
 		return eventRepository.save(event);
 	}
 
@@ -38,8 +39,9 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void remove(Event event) {
-		eventRepository.delete(event);
+	public void deactivate(Event event) {
+		event.setActive(false);
+		eventRepository.save(event);
 	}
 
 }
