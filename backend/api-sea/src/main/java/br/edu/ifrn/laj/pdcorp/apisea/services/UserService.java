@@ -7,7 +7,7 @@ import org.springframework.util.ObjectUtils;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
-import br.edu.ifrn.laj.pdcorp.apisea.repository.UserRepository;
+import br.edu.ifrn.laj.pdcorp.apisea.repositories.UserRepository;
 
 @Service
 public class UserService {
