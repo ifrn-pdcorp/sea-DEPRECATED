@@ -49,7 +49,7 @@ public class EventController {
 		Event existent = eventService.findById(id);
 		if (existent == null)
 			return ResponseEntity.notFound().build();
-		BeanUtils.copyProperties(event, existent, "id");
+		BeanUtils.copyProperties(event, existent, "id", "active");
 		existent = eventService.update(existent);
 		return ResponseEntity.ok(existent);
 	}
