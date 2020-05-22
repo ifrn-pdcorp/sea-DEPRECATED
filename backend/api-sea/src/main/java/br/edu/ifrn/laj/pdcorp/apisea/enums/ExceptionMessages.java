@@ -2,7 +2,8 @@ package br.edu.ifrn.laj.pdcorp.apisea.enums;
 
 public enum ExceptionMessages {
 
-	EMAIL_EXISTS_DB("E-mail já registrado no banco de dados, tente outro.");
+	USER_EMAIL_EXISTS_DB("E-mail já registrado no banco de dados, tente outro."),
+	USER_DOESNT_EXISTS_DB("Usuário não encontrado para o e-mail informado.");
 	
 	private String description;
 	
