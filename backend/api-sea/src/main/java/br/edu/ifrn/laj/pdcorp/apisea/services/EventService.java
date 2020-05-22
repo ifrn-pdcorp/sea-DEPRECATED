@@ -1,19 +1,41 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
+import br.edu.ifrn.laj.pdcorp.apisea.repositories.EventRepository;
 
-public interface EventService {
+@Service
+public class EventService {
 
-	Event add(Event event);
+	@Autowired
+	private EventRepository eventRepository;
 
-	Event findById(Long id);
+	public Event add(Event event) {
+		event.setActive(true);
+		return eventRepository.save(event);
+	}
 
-	List<Event> findAll();
+	public Event findById(Long id) {
+		Optional<Event> optional = eventRepository.findById(id);
+		return optional.isPresent() ? optional.get() : null;
+	}
 
-	Event update(Event event);
+	public List<Event> findAll() {
+		return eventRepository.findAll();
+	}
 
-	Event deactivate(Event event);
+	public Event update(Event event) {
+		return eventRepository.save(event);
+	}
+
+	public Event deactivate(Event event) {
+		event.setActive(false);
+		return eventRepository.save(event);
+	}
 
 }
