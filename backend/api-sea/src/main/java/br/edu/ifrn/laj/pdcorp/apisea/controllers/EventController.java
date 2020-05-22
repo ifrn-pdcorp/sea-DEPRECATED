@@ -1,4 +1,4 @@
-package br.edu.ifrn.laj.pdcorp.apisea.resources;
+package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,7 @@ import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 
 @RestController
 @RequestMapping("/events")
-public class EventResource {
+public class EventController {
 	
 	@Autowired
 	private EventService eventService;
