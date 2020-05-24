@@ -106,7 +106,7 @@ Detalhes de sua instalação são descritos [aqui](https://cli.vuejs.org/guide/i
 O [Docker](https://www.docker.com/) é uma aplicação de gerenciamento de containers. Com ele conseguimos gerenciar e executar pequenos pedaços da nossa aplicação de maneira independente. Saiba mais [aqui](https://www.redhat.com/pt-br/topics/containers/what-is-docker).
 
 #### No Windows:
-Para instalação do Docker no Windows Home, é necessário habilitar o recurso WSL2 além de instalar um pacote de atualização de kernel Linux. Mais detalhes sobre esse procedimento é discutido [aqui](https://docs.docker.com/docker-for-windows/install-windows-home/). No Windows Pro, apesar de possível, não é necessária a habilitação do recurso.
+Para instalação do Docker no Windows Home, é necessário habilitar o recurso WSL2 além de instalar um pacote de atualização de kernel Linux. Mais detalhes sobre esse procedimento são discutidos [aqui](https://docs.docker.com/docker-for-windows/install-windows-home/). No Windows Pro, apesar de possível, não é necessária a habilitação do recurso.
 
 Você pode baixar o Docker Desktop [aqui](https://hub.docker.com/editions/community/docker-ce-desktop-windows/).
 
@@ -118,7 +118,7 @@ Para instalação do Docker utilizando o Chocolatey, executar o seguinte comando
 
 ## Configurando o ambiente de desenvolvimento
 Esta sessão descreve os procedimentos necessários para a configuração do ambiente de desenvolvimento do projeto. 
-Para isso você necessita ter instalado todos os softwares obrigatórios descritos na sessão anterior.
+Para isso, os softwares obrigatórios descritos na sessão anterior precisam estar devidamente instalados.
 
 ### Banco de dados
 Neste projeto utilizamos o banco de dados [PostgreSQL](https://www.postgresql.org/) e o executamos através de um container Docker. 
@@ -128,12 +128,12 @@ Para executar o banco de dados entre na pasta `/backend/api-sea/` e execute o se
 
 Se o Docker tiver sido instalado corretamente, irá baixar as imagens necessárias e executará o container contendo o banco de dados.
 Nesta configuração também há um container do **Adminer**, utilizado para acessar o banco de dados através de uma interface web.
-Para acessar essa interface web, após a execução do container, acesse o endereço `http://localhost:9000/`.
+Para utilizar a interface web do **Adminer**, após a execução do container, acesse o endereço `http://localhost:9000/`.
 
 ### API Rest
 Abra o Eclipse utilizando a pasta `/backend/` como workspace.
 Selecione a opção do menu `File -> Import` e na janela que irá abrir busque a opção `Existing Gradle Project`. 
-Selecione a pasta `/backend/api-sea/` e siga as demais instruções do wizard.
+Selecione a pasta `/backend/api-sea/` e siga as demais instruções do wizard de configuração do projeto.
 Aguarde o Gradle baixar e configurar as bibliotecas necessárias ao projeto antes de começar a explorá-lo.
 
 Para executar o projeto basta executar a classe `ApiSeaApplication.java` no pacote `br.edu.ifrn.laj.pdcorp.apisea`.
@@ -143,7 +143,7 @@ A API depende do banco de dados para ser executada.
 ### SEA Web
 Abra o Visual Studio Code e selecione a seguinte opção do menu `File -> Open Folder`.
 Selecione a pasta `/frontend/sea-web/` e você terá acesso a todos os arquivos da aplicação web.
-Você também pode navegar até a pasta `/frontend/sea-web/` no terminal e digitar o seguinte comando:
+Você também pode navegar até a pasta `/frontend/sea-web/` através do terminal e digitar o seguinte comando:
 >`code .`
 
 Antes de executar o projeto você deve instalar as dependências de biblioteca.
