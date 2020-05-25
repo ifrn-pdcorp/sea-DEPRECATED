@@ -30,6 +30,14 @@ public class UserService {
 		}
 		return UserDTO.convertFromModel(user);
 	}
+
+	public User getByCredentials(String username, String password) throws ApiUserException {
+		User user = repository.findByEmailAndPassword(username, password);
+		if(ObjectUtils.isEmpty(user)) {
+			throw new ApiUserException(ExceptionMessages.CREDENTIALS_IS_WORNG);
+		}
+		return user;
+	}
 	
 	
 
