@@ -1,6 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,34 +14,35 @@ import br.edu.ifrn.laj.pdcorp.apisea.repositories.SubscriptionRepository;
 
 @Service
 public class SubscriptionService {
-	
+
 	@Autowired
 	private SubscriptionRepository subscriptionRepository;
-	
+
 	public Subscription add(Subscription subscription) {
 		throw new NotYetImplementedException("Not Yet Implemented!");
 	}
-	
+
 	public Subscription findById(Long id) {
-		throw new NotYetImplementedException("Not Yet Implemented!");
+		Optional<Subscription> optional = subscriptionRepository.findById(id);
+		return optional.isPresent() ? optional.get() : null;
 	}
-	
+
 	public List<Subscription> findAll() {
-		throw new NotYetImplementedException("Not Yet Implemented!");
+		return subscriptionRepository.findAll();
 	}
-	
+
 	public List<Subscription> findAllByEvent(Event event) {
-		throw new NotYetImplementedException("Not Yet Implemented!");
+		return subscriptionRepository.findAllByEvent(event);
 	}
-	
+
 	public List<Subscription> findAllByUser(User user) {
-		throw new NotYetImplementedException("Not Yet Implemented!");
+		return subscriptionRepository.findAllByUser(user);
 	}
-	
+
 	public Subscription update(Subscription subscription) {
 		throw new NotYetImplementedException("Not Yet Implemented!");
 	}
-	
+
 	public void delete(Subscription subscription) {
 		throw new NotYetImplementedException("Not Yet Implemented!");
 	}
