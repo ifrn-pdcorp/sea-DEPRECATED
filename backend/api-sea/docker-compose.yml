@@ -3,8 +3,8 @@
 version: '3.1'
 
 services:
-
   db:
+    container_name: postgres_container
     image: postgres
     restart: always
     environment:
@@ -12,9 +12,27 @@ services:
       POSTGRES_DB: sea_db
     ports:
       - 5432:5432
+    networks:
+      - postgres-network
 
-  adminer:
-    image: adminer
-    restart: always
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-dev@sea.ifrn.edu.br}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-adminsea}
     ports:
-      - 9000:8080
+      - "${PGADMIN_PORT:-15432}:80"
+    networks:
+      - postgres-network
+      
+      
+    restart: unless-stopped
+      
+      
+networks:
+  postgres-network:
+    driver: bridge    
+
+
+      
