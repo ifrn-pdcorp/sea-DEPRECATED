@@ -1,4 +1,4 @@
-package br.edu.ifrn.laj.pdcorp.controllers;
+package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.services.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
 	@Autowired

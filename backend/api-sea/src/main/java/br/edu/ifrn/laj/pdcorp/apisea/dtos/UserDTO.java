@@ -17,7 +17,7 @@ public class UserDTO {
 	private UserDTO(Long id, String name, String email, String school, String city, UserType type) {
 		this.id = id;
 		this.name = name;
-		this.email = name;
+		this.email = email;
 		this.school = school;
 		this.city = city;
 		this.type = type;

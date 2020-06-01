@@ -2,8 +2,12 @@ package br.edu.ifrn.laj.pdcorp.apisea.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GeneratorType;
 
 import br.edu.ifrn.laj.pdcorp.apisea.models.enums.UserType;
 
@@ -13,9 +17,10 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.enums.UserType;
  * @since 22/05/2020
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user_sea")
 public class User {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@Column(name = "name", nullable = false)
 	private String name;

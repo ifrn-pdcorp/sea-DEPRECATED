@@ -1,21 +1,25 @@
 package br.edu.ifrn.laj.pdcorp.apisea.dtos;
 
-public class CredentialsDTO {
+import java.io.Serializable;
+
+public class CredentialsDTO implements Serializable{
 	
-	private String email;
+	private String user;
 	private String password;
 	
-	public CredentialsDTO(String email, String password) {
-		this.email = email;
+	public CredentialsDTO() {}
+	
+	public CredentialsDTO(String email, String user) {
+		this.user = email;
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUser() {
+		return user;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getPassword() {

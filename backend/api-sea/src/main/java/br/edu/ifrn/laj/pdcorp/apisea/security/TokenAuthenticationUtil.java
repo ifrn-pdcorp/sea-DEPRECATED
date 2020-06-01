@@ -32,6 +32,8 @@ public class TokenAuthenticationUtil {
 		StringBuilder token = new StringBuilder(TOKEN_PREFIX);
 		token.append(" ").append(jwt);
 		
+		System.out.println(token.toString());
+		
 		response.addHeader(HEADER_STRING, token.toString());
 	}
 	
