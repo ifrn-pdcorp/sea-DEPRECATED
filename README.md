@@ -12,7 +12,7 @@ Nossa API REST é desenvolvida na linguagem Java utilizando o framework [Spring]
 >`/frontend/sea-web/`
 
 ## Softwares utilizados no desenvolvimento
-Os seguintes softwares são utilizados no desenvolvimento do projeto. Alguns deles possuem utilização opcional e são devidade identificados. Nesta sessão são listados links para download e instalação no Windows e Ubuntu.
+Os seguintes softwares são utilizados no desenvolvimento do projeto. Alguns deles possuem utilização opcional e são devidademente identificados. Nesta sessão são listados links para download e instalação no Windows e Ubuntu.
 
 ### Chocolatey (Opcional)
 O [Chocolatey](https://chocolatey.org/) é um software de gerenciamento de pacotes para Windows nos moldes do que é o *apt-get* no Ubuntu. 
