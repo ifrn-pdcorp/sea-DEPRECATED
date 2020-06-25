@@ -1,5 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
@@ -18,32 +20,45 @@ public class EventService {
 	@Autowired
 	private EventRepository eventRepository;
 
-	public Event add(Event event) {
+	public EventDTO add(Event event) {
 		event.setActive(true);
-		return eventRepository.save(event);
+		return EventDTO.convertFromModel(eventRepository.save(event));
 	}
 
-	public Event findById(Long id) throws ApiEventException {
+	public EventDTO findById(Long id) throws ApiEventException {
 		Optional<Event> optional = eventRepository.findById(id);
 		if (optional.isEmpty())
 			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
-		return optional.get();
+		return EventDTO.convertFromModel(optional.get());
 	}
 
-	public List<Event> findAll() {
-		return eventRepository.findAll();
+	public List<EventDTO> findAll() {
+		List<EventDTO> result = new ArrayList<EventDTO>();
+		List<Event> events = eventRepository.findAll();
+		
+		for(Event e: events) {
+			result.add(EventDTO.convertFromModel(e));
+		}
+		
+		return result;
 	}
 
-	public Event update(Long id, Event event) throws ApiEventException {
-		Event existent = this.findById(id);
+	public EventDTO update(Long id, Event event) throws ApiEventException {
+		Optional<Event> optional = eventRepository.findById(id);
+		if (optional.isEmpty())
+			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
+		Event existent = optional.get();
 		BeanUtils.copyProperties(event, existent, "id", "active");
-		return eventRepository.save(existent);
+		return EventDTO.convertFromModel(eventRepository.save(existent));
 	}
 
-	public Event deactivate(Long id) throws ApiEventException {
-		Event event = this.findById(id);
+	public EventDTO deactivate(Long id) throws ApiEventException {
+		Optional<Event> optional = eventRepository.findById(id);
+		if (optional.isEmpty())
+			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
+		Event event = optional.get();
 		event.setActive(false);
-		return eventRepository.save(event);
+		return EventDTO.convertFromModel(eventRepository.save(event));
 	}
 
 }

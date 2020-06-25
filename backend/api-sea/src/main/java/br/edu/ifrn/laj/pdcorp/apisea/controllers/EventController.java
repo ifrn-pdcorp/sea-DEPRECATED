@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
@@ -26,7 +27,7 @@ public class EventController {
 	private EventService eventService;
 
 	@GetMapping
-	public List<Event> findAll() {
+	public List<EventDTO> findAll() {
 		return eventService.findAll();
 	}
 
@@ -40,14 +41,14 @@ public class EventController {
 	}
 
 	@PostMapping
-	public Event add(@RequestBody @Valid Event event) {
-		return eventService.add(event);
+	public EventDTO add(@RequestBody @Valid EventDTO event) {
+		return eventService.add(event.convertToModel());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid Event event) {
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid EventDTO event) {
 		try {
-			return ResponseEntity.ok(eventService.update(id, event));
+			return ResponseEntity.ok(eventService.update(id, event.convertToModel()));
 		} catch (ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
