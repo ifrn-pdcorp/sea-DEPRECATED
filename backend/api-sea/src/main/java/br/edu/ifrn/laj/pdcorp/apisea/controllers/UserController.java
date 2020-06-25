@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.UserDTO;
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.services.UserService;
 
@@ -27,7 +27,7 @@ public class UserController {
 	public ResponseEntity<?> saveOrEditUser(@RequestBody User user){
 		try {
 			return new ResponseEntity<UserDTO>(this.userService.save(user), HttpStatus.OK);
-		} catch (ApiUserException e) {
+		} catch (ApiException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
@@ -36,7 +36,7 @@ public class UserController {
 	public ResponseEntity<?> findByEmail(@PathVariable("email") String email){
 		try {
 			return new ResponseEntity<UserDTO>(this.userService.findByUsername(email), HttpStatus.OK);
-		} catch (ApiUserException e) {
+		} catch (ApiException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
