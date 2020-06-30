@@ -18,16 +18,13 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	private AbstractValidationMediator<User> validator = new UserValidationMediator();
+	@Autowired
+	private AbstractValidationMediator<User> validator;
 	
 	public UserDTO save(User user) throws ApiException {
 		
 		if(validator.isInvalid(user)) {
 			throw validator.getBusinessInvalidation().getCause();
-		}
-		
-		if(!ObjectUtils.isEmpty(repository.findByEmail(user.getEmail()))) {
-			throw new ApiException(ExceptionMessages.USER_EMAIL_EXISTS_DB);
 		}
 		
 		return UserDTO.convertFromModel(repository.save(user)); 
