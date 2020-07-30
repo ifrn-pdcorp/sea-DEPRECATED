@@ -2,7 +2,11 @@ package br.edu.ifrn.laj.pdcorp.apisea.enums;
 
 public enum ExceptionMessages {
 
-	EMAIL_EXISTS_DB("E-mail já registrado no banco de dados, tente outro.");
+	USER_EMAIL_EXISTS_DB("E-mail já registrado no banco de dados, tente outro."),
+	USER_DOESNT_EXISTS_DB("Usuário não encontrado para o e-mail informado."),
+	CREDENTIALS_IS_WORNG("E-mail ou senha incorretos."),
+	CREDENTIALS_REQUEST_FORBBIDEN("A requisição foi negada pela API por não ser autenticada."),
+	EVENT_DOESNT_EXISTS_DB("Evento não encontrado.");
 	
 	private String description;
 	
@@ -15,4 +19,3 @@ public enum ExceptionMessages {
 	}
 	
 }
-

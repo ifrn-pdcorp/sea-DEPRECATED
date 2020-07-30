@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.UserDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
@@ -15,11 +16,29 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public User save(User user) throws ApiUserException {
+	public UserDTO save(User user) throws ApiUserException {
 		if(!ObjectUtils.isEmpty(repository.findByEmail(user.getEmail()))) {
-			throw new ApiUserException(ExceptionMessages.EMAIL_EXISTS_DB);
+			throw new ApiUserException(ExceptionMessages.USER_EMAIL_EXISTS_DB);
 		}
-		return repository.save(user); 
+		return UserDTO.convertFromModel(repository.save(user)); 
 	}
+	
+	public UserDTO findByUsername(String email) throws ApiUserException {
+		User user = repository.findByEmail(email);
+		if(ObjectUtils.isEmpty(user)) {
+			throw new ApiUserException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
+		}
+		return UserDTO.convertFromModel(user);
+	}
+
+	public User getByCredentials(String username, String password) throws ApiUserException {
+		User user = repository.findByEmailAndPassword(username, password);
+		if(ObjectUtils.isEmpty(user)) {
+			throw new ApiUserException(ExceptionMessages.CREDENTIALS_IS_WORNG);
+		}
+		return user;
+	}
+	
+	
 
 }
