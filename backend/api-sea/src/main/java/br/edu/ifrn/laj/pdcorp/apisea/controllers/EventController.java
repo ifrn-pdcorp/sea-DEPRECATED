@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
-import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 
 @RestController
@@ -28,7 +27,7 @@ public class EventController {
 
 	@GetMapping
 	public List<EventDTO> findAll() {
-		return eventService.findAll();
+		return eventService.findAllIsActive();
 	}
 
 	@GetMapping("/{id}")
