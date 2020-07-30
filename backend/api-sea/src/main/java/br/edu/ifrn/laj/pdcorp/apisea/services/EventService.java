@@ -33,14 +33,13 @@ public class EventService {
 	}
 
 	public List<EventDTO> findAll() {
-		List<EventDTO> result = new ArrayList<EventDTO>();
 		List<Event> events = eventRepository.findAll();
-		
-		for(Event e: events) {
-			result.add(EventDTO.convertFromModel(e));
-		}
-		
-		return result;
+		return EventDTO.convertFromModel(events);
+	}
+	
+	public List<EventDTO> findAllIsActive() {
+		List<Event> events = eventRepository.findAllByActiveIsTrue();
+		return EventDTO.convertFromModel(events);
 	}
 
 	public EventDTO update(Long id, Event event) throws ApiEventException {
