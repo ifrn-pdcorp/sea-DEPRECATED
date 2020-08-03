@@ -4,15 +4,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
