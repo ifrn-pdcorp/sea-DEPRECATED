@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.SubscriptionDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
@@ -27,7 +28,7 @@ public class SubscriptionService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public Subscription add(Subscription subscription) throws ApiSubscriptionException {
+	public SubscriptionDTO add(Subscription subscription) throws ApiSubscriptionException {
 		User user = this.findUserById(subscription.getUser().getId());
 		Event event = this.findEventById(subscription.getEvent().getId());
 
@@ -39,34 +40,34 @@ public class SubscriptionService {
 
 		subscription.setLastChangeDate(Calendar.getInstance());
 
-		return subscriptionRepository.save(subscription);
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
 	}
 
-	public Subscription findById(Long id) throws ApiSubscriptionException {
-		return this.findSubscriptionById(id);
+	public SubscriptionDTO findById(Long id) throws ApiSubscriptionException {
+		return SubscriptionDTO.convertFromModel(this.findSubscriptionById(id));
 	}
 
-	public List<Subscription> findAll() {
-		return subscriptionRepository.findAll();
+	public List<SubscriptionDTO> findAll() {
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAll());
 	}
 
-	public List<Subscription> findAllByEventId(Long eventId) throws ApiSubscriptionException {
+	public List<SubscriptionDTO> findAllByEventId(Long eventId) throws ApiSubscriptionException {
 		Event event = this.findEventById(eventId);
-		return subscriptionRepository.findAllByEvent(event);
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByEvent(event));
 	}
 
-	public List<Subscription> findAllByUserId(Long userId) throws ApiSubscriptionException {
+	public List<SubscriptionDTO> findAllByUserId(Long userId) throws ApiSubscriptionException {
 		User user = this.findUserById(userId);
-		return subscriptionRepository.findAllByUser(user);
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
 	}
 
-	public Subscription update(Long id, Subscription subscription) throws ApiSubscriptionException {
+	public SubscriptionDTO update(Long id, Subscription subscription) throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(id);
 
 		BeanUtils.copyProperties(subscription, existent, "id", "user", "event");
 		existent.setLastChangeDate(Calendar.getInstance());
 
-		return subscriptionRepository.save(existent);
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(existent));
 	}
 
 	public void delete(Subscription subscription) throws ApiSubscriptionException {
