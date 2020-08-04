@@ -2,11 +2,11 @@ package br.edu.ifrn.laj.pdcorp.apisea.exceptions;
 
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 
-public class ApiUserException extends Exception {
+public class ApiException extends Exception {
 	
 	private ExceptionMessages messageException;
 
-	public ApiUserException(ExceptionMessages message) {
+	public ApiException(ExceptionMessages message) {
 		super(message.getDescription());
 	}
 

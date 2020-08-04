@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.util.StringUtils;
 
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
