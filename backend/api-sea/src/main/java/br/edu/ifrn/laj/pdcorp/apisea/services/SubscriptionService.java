@@ -28,21 +28,6 @@ public class SubscriptionService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public SubscriptionDTO add(Subscription subscription) throws ApiSubscriptionException {
-		User user = this.findUserById(subscription.getUser().getId());
-		Event event = this.findEventById(subscription.getEvent().getId());
-
-		subscription.setEvent(event);
-		subscription.setUser(user);
-
-		if (subscriptionRepository.findByUserAndEvent(user, event) != null)
-			throw new ApiSubscriptionException(ExceptionMessages.SUBSCRIPTION_ALREADY_EXISTS);
-
-		subscription.setLastChangeDate(Calendar.getInstance());
-
-		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
-	}
-
 	public SubscriptionDTO findById(Long id) throws ApiSubscriptionException {
 		return SubscriptionDTO.convertFromModel(this.findSubscriptionById(id));
 	}
@@ -59,6 +44,21 @@ public class SubscriptionService {
 	public List<SubscriptionDTO> findAllByUserId(Long userId) throws ApiSubscriptionException {
 		User user = this.findUserById(userId);
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
+	}
+
+	public SubscriptionDTO add(Subscription subscription) throws ApiSubscriptionException {
+		User user = this.findUserById(subscription.getUser().getId());
+		Event event = this.findEventById(subscription.getEvent().getId());
+
+		subscription.setEvent(event);
+		subscription.setUser(user);
+
+		if (subscriptionRepository.findByUserAndEvent(user, event) != null)
+			throw new ApiSubscriptionException(ExceptionMessages.SUBSCRIPTION_ALREADY_EXISTS);
+
+		subscription.setLastChangeDate(Calendar.getInstance());
+
+		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
 	}
 
 	public SubscriptionDTO update(Long id, Subscription subscription) throws ApiSubscriptionException {
