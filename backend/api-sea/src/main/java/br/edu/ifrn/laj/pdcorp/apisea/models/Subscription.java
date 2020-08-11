@@ -60,7 +60,7 @@ public class Subscription {
 
 	@Override
 	public String toString() {
-		return "Subscription [id=" + id + ", lastChangeDate=" + lastChangeDate + ", user=" + user + ", event=" + event
+		return "Subscription [id=" + id + ", lastChangeDate=" + lastChangeDate + ",\n\t user=" + user + ",\n\t event=" + event
 				+ "]";
 	}
 
