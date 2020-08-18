@@ -35,7 +35,7 @@ public class UploadService {
 	public byte[] downloadThumbnail(String imageName) throws IOException {
 		
 		StringBuilder pathBuilder = new StringBuilder(uploadConfig.getSource());
-		pathBuilder.append(imageName);
+		pathBuilder.append(File.separator).append(imageName);
 		return Files.readAllBytes(Paths.get(pathBuilder.toString()));
 	}
 }
