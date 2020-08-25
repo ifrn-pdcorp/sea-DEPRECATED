@@ -1,12 +1,14 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +27,9 @@ public class Event {
 	private String summary;
 
 	private String thumbPath;
+	
+	@OneToMany
+	private List<Activity> activities;
 
 	@NotNull
 	private Calendar subscriptionStart;
@@ -33,6 +38,10 @@ public class Event {
 	private Calendar subscriptionEnd;
 
 	private boolean active;
+	
+	public void addActivity(Activity activity) {
+		this.activities.add(activity);
+	}
 
 	public Long getId() {
 		return id;
@@ -88,6 +97,10 @@ public class Event {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public List<Activity> getActivities() {
+		return activities;
 	}
 
 	@Override
