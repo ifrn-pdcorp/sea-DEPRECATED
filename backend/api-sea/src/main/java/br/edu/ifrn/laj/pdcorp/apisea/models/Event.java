@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -32,9 +33,13 @@ public class Event {
 	@NotNull
 	private Calendar subscriptionEnd;
 
+	@ManyToOne
+	@NotNull
+	private User owner;
+
 	private boolean active;
-	
-	public Event () {
+
+	public Event() {
 		super();
 	}
 
@@ -49,7 +54,11 @@ public class Event {
 		this.subscriptionEnd = subscriptionEnd;
 	}
 
-
+	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
+			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd, @NotNull User owner) {
+		this(id, name, summary, thumbPath, subscriptionStart, subscriptionEnd);
+		this.owner = owner;
+	}
 
 	public Long getId() {
 		return id;
@@ -97,6 +106,14 @@ public class Event {
 
 	public void setSubscriptionEnd(Calendar subscriptionEnd) {
 		this.subscriptionEnd = subscriptionEnd;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
 	public boolean isActive() {
