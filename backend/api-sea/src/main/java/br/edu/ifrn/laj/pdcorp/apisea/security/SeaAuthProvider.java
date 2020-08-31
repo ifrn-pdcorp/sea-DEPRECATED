@@ -10,7 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.services.UserService;
 
@@ -30,7 +30,7 @@ public class SeaAuthProvider implements AuthenticationProvider {
 			return new UsernamePasswordAuthenticationToken(user.getEmail(), 
 					user.getPassword(), 
 					Collections.emptyList());
-		} catch (ApiUserException excep) {
+		} catch (ApiException excep) {
 			throw new UsernameNotFoundException(excep.getMessage());
 		}
 	}

@@ -15,8 +15,6 @@ import javax.persistence.Table;
 
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.TypeActivity;
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
-
 
 @Entity
 @Table(name = "activity")
@@ -40,23 +38,23 @@ public class Activity {
 	private int maxNumberOfParticipants;
 	@ManyToMany
 	private List<User> participants;
-	
+
 	@Column(name = "type_activity")
 	@Enumerated(EnumType.STRING)
 	private TypeActivity typeActivity;
-	
+
 	public void addSpeaker(Speaker speaker) {
 		this.speakers.add(speaker);
 	}
-	
-	public void addParticipant(User user)  {
-		if(verifyAvailabilityOfList()) {
+
+	public void addParticipant(User user) {
+		if (verifyAvailabilityOfList()) {
 			this.participants.add(user);
 		}
 	}
-	
+
 	private boolean verifyAvailabilityOfList() {
-		if(!isLimited())
+		if (!isLimited())
 			return true;
 		return (this.isLimited() && this.getParticipants().size() < this.getMaxNumberOfParticipants()) ? true : false;
 	}
@@ -64,6 +62,7 @@ public class Activity {
 	public Long getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}

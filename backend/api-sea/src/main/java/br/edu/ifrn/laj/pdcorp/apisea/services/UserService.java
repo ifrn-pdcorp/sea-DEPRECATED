@@ -6,9 +6,11 @@ import org.springframework.util.ObjectUtils;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.UserDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
-import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.repositories.UserRepository;
+import br.edu.ifrn.laj.pdcorp.apisea.validators.AbstractValidationMediator;
+import br.edu.ifrn.laj.pdcorp.apisea.validators.user.UserValidationMediator;
 
 @Service
 public class UserService {
@@ -16,25 +18,30 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	public UserDTO save(User user) throws ApiUserException {
-		if(!ObjectUtils.isEmpty(repository.findByEmail(user.getEmail()))) {
-			throw new ApiUserException(ExceptionMessages.USER_EMAIL_EXISTS_DB);
+	@Autowired
+	private AbstractValidationMediator<User> validator;
+	
+	public UserDTO save(User user) throws ApiException {
+		
+		if(validator.isInvalid(user)) {
+			throw validator.getBusinessInvalidation().getCause();
 		}
+		
 		return UserDTO.convertFromModel(repository.save(user)); 
 	}
 	
-	public UserDTO findByUsername(String email) throws ApiUserException {
+	public UserDTO findByUsername(String email) throws ApiException {
 		User user = repository.findByEmail(email);
 		if(ObjectUtils.isEmpty(user)) {
-			throw new ApiUserException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
+			throw new ApiException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
 		}
 		return UserDTO.convertFromModel(user);
 	}
 
-	public User getByCredentials(String username, String password) throws ApiUserException {
+	public User getByCredentials(String username, String password) throws ApiException {
 		User user = repository.findByEmailAndPassword(username, password);
 		if(ObjectUtils.isEmpty(user)) {
-			throw new ApiUserException(ExceptionMessages.CREDENTIALS_IS_WORNG);
+			throw new ApiException(ExceptionMessages.CREDENTIALS_IS_WORNG);
 		}
 		return user;
 	}

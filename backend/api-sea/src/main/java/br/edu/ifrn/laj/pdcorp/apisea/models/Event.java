@@ -43,6 +43,22 @@ public class Event {
 	public void addActivity(Activity activity) {
 		this.activities.add(activity);
 	}
+	
+	public Event () {
+		super();
+	}
+
+	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
+			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd) {
+		this();
+		this.id = id;
+		this.name = name;
+		this.summary = summary;
+		this.thumbPath = thumbPath;
+		this.subscriptionStart = subscriptionStart;
+		this.subscriptionEnd = subscriptionEnd;
+	}
+
 
 	public Long getId() {
 		return id;

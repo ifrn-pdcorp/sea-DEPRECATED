@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,54 +14,54 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 
 @RestController
 @RequestMapping("/events")
 public class EventController {
-	
+
 	@Autowired
 	private EventService eventService;
-	
+
 	@GetMapping
-	public List<Event> findAll() {
-		return eventService.findAll();
+	public List<EventDTO> findAll() {
+		return eventService.findAllIsActive();
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Event> findById(@PathVariable Long id) {
-		Event event = eventService.findById(id);
-		if (event == null) {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<?> findById(@PathVariable Long id) {
+		try {
+			return ResponseEntity.ok(eventService.findById(id));
+		} catch (ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
 		}
-		return ResponseEntity.ok(event);
 	}
 
 	@PostMapping
-	public Event add(@RequestBody @Valid Event event) {
-		return eventService.add(event);
+	public EventDTO add(@RequestBody @Valid EventDTO event) {
+		return eventService.add(event.convertToModel());
 	}
 	
    
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody @Valid Event event) {
-		Event existent = eventService.findById(id);
-		if (existent == null)
-			return ResponseEntity.notFound().build();
-		BeanUtils.copyProperties(event, existent, "id", "active");
-		existent = eventService.update(existent);
-		return ResponseEntity.ok(existent);
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid EventDTO event) {
+		try {
+			return ResponseEntity.ok(eventService.update(id, event.convertToModel()));
+		} catch (ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{id}/deactivate")
-	public ResponseEntity<Event> deactivate(@PathVariable Long id) {
-		Event event = eventService.findById(id);
-		if (event == null)
-			return ResponseEntity.notFound().build();
-		event = eventService.deactivate(event);
-		return ResponseEntity.ok(event);
+	public ResponseEntity<?> deactivate(@PathVariable Long id) {
+		try {
+			return ResponseEntity.ok(eventService.deactivate(id));
+		} catch (ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 }
