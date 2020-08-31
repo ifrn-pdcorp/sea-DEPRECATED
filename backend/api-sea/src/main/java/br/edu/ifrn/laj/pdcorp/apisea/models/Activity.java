@@ -13,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.TypeActivity;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiUserException;
 
 
 @Entity
@@ -47,11 +49,13 @@ public class Activity {
 		this.speakers.add(speaker);
 	}
 	
-	public void addParticipant(User user) {
-		this.participants.add(user);
+	public void addParticipant(User user)  {
+		if(verifyAvailabilityOfList()) {
+			this.participants.add(user);
+		}
 	}
 	
-	public boolean verifyAvailabilityOfList() {
+	private boolean verifyAvailabilityOfList() {
 		if(!isLimited())
 			return true;
 		return (this.isLimited() && this.getParticipants().size() < this.getMaxNumberOfParticipants()) ? true : false;

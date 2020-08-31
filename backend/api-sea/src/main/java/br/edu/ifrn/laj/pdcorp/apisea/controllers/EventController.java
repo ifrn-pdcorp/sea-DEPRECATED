@@ -43,6 +43,8 @@ public class EventController {
 	public Event add(@RequestBody @Valid Event event) {
 		return eventService.add(event);
 	}
+	
+   
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody @Valid Event event) {

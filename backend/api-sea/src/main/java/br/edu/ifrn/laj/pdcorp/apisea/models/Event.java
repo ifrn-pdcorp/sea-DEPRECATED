@@ -3,6 +3,7 @@ package br.edu.ifrn.laj.pdcorp.apisea.models;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Event {
 
 	private String thumbPath;
 	
-	@OneToMany
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
 	private List<Activity> activities;
 
 	@NotNull
