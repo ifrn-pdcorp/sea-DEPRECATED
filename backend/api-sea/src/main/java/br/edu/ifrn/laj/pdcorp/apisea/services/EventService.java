@@ -22,6 +22,7 @@ public class EventService {
 
 	public EventDTO add(Event event) {
 		event.setActive(true);
+		
 		return EventDTO.convertFromModel(eventRepository.save(event));
 	}
 

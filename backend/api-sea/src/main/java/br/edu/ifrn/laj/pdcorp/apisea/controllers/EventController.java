@@ -54,7 +54,7 @@ public class EventController {
 		}
 	}
 	
-	@PutMapping("/activities/{id}")
+	@PutMapping("/{idEvent}/activities")
 	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity){
 		try {
 			return ResponseEntity.ok(eventService.addActivity(activity, idEvent));

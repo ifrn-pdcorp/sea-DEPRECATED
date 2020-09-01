@@ -67,7 +67,7 @@ public class EventDTO {
 
 	public Event convertToModel() {
 		return new Event(this.getId(), this.getName(), this.getSummary(), this.getThumbPath(),
-				this.getSubscriptionStart(), this.getSubscriptionEnd());
+				this.getSubscriptionStart(), this.getSubscriptionEnd(), this.getActivities());
 	}
 
 	public Long getId() {

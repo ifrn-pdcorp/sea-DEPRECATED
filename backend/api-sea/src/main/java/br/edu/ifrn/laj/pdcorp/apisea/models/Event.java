@@ -49,7 +49,7 @@ public class Event {
 	}
 
 	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
-			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd) {
+			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd, List<Activity> activities) {
 		this();
 		this.id = id;
 		this.name = name;
@@ -57,6 +57,7 @@ public class Event {
 		this.thumbPath = thumbPath;
 		this.subscriptionStart = subscriptionStart;
 		this.subscriptionEnd = subscriptionEnd;
+		this.activities = activities;
 	}
 
 
