@@ -1,5 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.SubscriptionDTO;
@@ -19,51 +21,52 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SubscriptionService;
 
 @RestController
+@RequestMapping("/subscriptions")
 public class SubscriptionController {
 	
 	@Autowired
 	private SubscriptionService subscriptionService;
 	
-	@GetMapping("/subscriptions/{id}")
-	public ResponseEntity<?> findId(@PathVariable Long id){
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id){
 		try {
-			return ResponseEntity.ok(subscriptionService.findById(id));
+			return ResponseEntity.ok(subscriptionService.findById(principal, id));
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@GetMapping("/users/{userId}/subscriptions")
-	public ResponseEntity<?> findAllByUserId(@PathVariable Long userId){
+	@GetMapping
+	public ResponseEntity<?> findAllByUserId(Principal principal){
 		try {
-			return ResponseEntity.ok(subscriptionService.findAllByUserId(userId));
+			return ResponseEntity.ok(subscriptionService.findAllByUser(principal));
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@GetMapping("/events/{eventId}/subscriptions")
-	public ResponseEntity<?> findAllByEventId(@PathVariable Long eventId){
+	@GetMapping("/events/{eventId}")
+	public ResponseEntity<?> findAllByEventId(Principal principal, @PathVariable Long eventId){
 		try {
-			return ResponseEntity.ok(subscriptionService.findAllByEventId(eventId));
+			return ResponseEntity.ok(subscriptionService.findAllByEventId(principal, eventId));
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@PostMapping("/subscriptions")
-	public ResponseEntity<?> add(@RequestBody @Valid Subscription subscription){
+	@PostMapping
+	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid Subscription subscription){
 		try {
-			return ResponseEntity.ok(subscriptionService.add(subscription));
+			return ResponseEntity.ok(subscriptionService.add(principal, subscription));
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@PutMapping("/subscriptions/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid Subscription subscription){
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody @Valid Subscription subscription){
 		try {
-			return ResponseEntity.ok(subscriptionService.update(id, subscription));
+			return ResponseEntity.ok(subscriptionService.update(principal, id, subscription));
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

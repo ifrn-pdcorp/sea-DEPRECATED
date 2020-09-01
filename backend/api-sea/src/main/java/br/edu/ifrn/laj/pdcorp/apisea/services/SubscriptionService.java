@@ -1,5 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
+import java.security.Principal;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -28,26 +29,38 @@ public class SubscriptionService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public SubscriptionDTO findById(Long id) throws ApiSubscriptionException {
-		return SubscriptionDTO.convertFromModel(this.findSubscriptionById(id));
+	public SubscriptionDTO findById(Principal principal, Long id) throws ApiSubscriptionException {
+		Subscription subscription = this.findSubscriptionById(id);
+		User user = this.findUserAuthenticated(principal);
+
+		if (!(user.getId().equals(subscription.getUser().getId())
+				|| user.getId().equals(subscription.getEvent().getOwner().getId())))
+			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
+
+		return SubscriptionDTO.convertFromModel(subscription);
 	}
 
 	public List<SubscriptionDTO> findAll() {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAll());
 	}
 
-	public List<SubscriptionDTO> findAllByEventId(Long eventId) throws ApiSubscriptionException {
+	public List<SubscriptionDTO> findAllByEventId(Principal principal, Long eventId) throws ApiSubscriptionException {
 		Event event = this.findEventById(eventId);
+		User user = this.findUserAuthenticated(principal);
+
+		if (!user.getId().equals(event.getOwner().getId()))
+			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
+
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByEvent(event));
 	}
 
-	public List<SubscriptionDTO> findAllByUserId(Long userId) throws ApiSubscriptionException {
-		User user = this.findUserById(userId);
+	public List<SubscriptionDTO> findAllByUser(Principal principal) throws ApiSubscriptionException {
+		User user = this.findUserAuthenticated(principal);
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
 	}
 
-	public SubscriptionDTO add(Subscription subscription) throws ApiSubscriptionException {
-		User user = this.findUserById(subscription.getUser().getId());
+	public SubscriptionDTO add(Principal principal, Subscription subscription) throws ApiSubscriptionException {
+		User user = this.findUserAuthenticated(principal);
 		Event event = this.findEventById(subscription.getEvent().getId());
 
 		subscription.setEvent(event);
@@ -61,8 +74,13 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
 	}
 
-	public SubscriptionDTO update(Long id, Subscription subscription) throws ApiSubscriptionException {
+	public SubscriptionDTO update(Principal principal, Long id, Subscription subscription)
+			throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(id);
+		User user = this.findUserAuthenticated(principal);
+
+		if (!user.getId().equals(existent.getUser().getId()))
+			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
 
 		BeanUtils.copyProperties(subscription, existent, "id", "user", "event");
 		existent.setLastChangeDate(Calendar.getInstance());
@@ -70,8 +88,14 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(existent));
 	}
 
-	public void delete(Subscription subscription) throws ApiSubscriptionException {
+	public void delete(Principal principal, Subscription subscription) throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(subscription.getId());
+
+		User user = this.findUserAuthenticated(principal);
+
+		if (!user.getId().equals(existent.getUser().getId()))
+			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
+
 		subscriptionRepository.delete(existent);
 	}
 
@@ -89,11 +113,11 @@ public class SubscriptionService {
 		return optional.get();
 	}
 
-	private User findUserById(Long id) throws ApiSubscriptionException {
-		Optional<User> optional = userRepository.findById(id);
-		if (optional.isEmpty())
+	private User findUserAuthenticated(Principal principal) throws ApiSubscriptionException {
+		User user = userRepository.findByEmail(principal.getName());
+		if (user == null)
 			throw new ApiSubscriptionException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
-		return optional.get();
+		return user;
 	}
 
 }
