@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 
 public class EventDTO {
@@ -26,13 +27,15 @@ public class EventDTO {
 
 	@NotNull
 	private Calendar subscriptionEnd;
+	
+	private List<Activity> activities;
 
 	public EventDTO() {
 		super();
 	}
 
 	public EventDTO(@NotNull Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
-			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd) {
+			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd, List<Activity> activities) {
 		this();
 		this.id = id;
 		this.name = name;
@@ -40,11 +43,12 @@ public class EventDTO {
 		this.thumbPath = thumbPath;
 		this.subscriptionStart = subscriptionStart;
 		this.subscriptionEnd = subscriptionEnd;
+		this.activities = activities;
 	}
 
 	public EventDTO(Event event) {
 		this(event.getId(), event.getName(), event.getSummary(), event.getThumbPath(), event.getSubscriptionStart(),
-				event.getSubscriptionEnd());
+				event.getSubscriptionEnd(), event.getActivities());
 	}
 
 	public static EventDTO convertFromModel(Event event) {
@@ -113,5 +117,15 @@ public class EventDTO {
 	public void setSubscriptionEnd(Calendar subscriptionEnd) {
 		this.subscriptionEnd = subscriptionEnd;
 	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
+	
+	
 
 }

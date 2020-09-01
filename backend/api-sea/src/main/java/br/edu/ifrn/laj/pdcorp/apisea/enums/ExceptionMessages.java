@@ -6,6 +6,7 @@ public enum ExceptionMessages {
 	USER_DOESNT_EXISTS_DB("Usuário não encontrado para o e-mail informado."),
 	CREDENTIALS_IS_WORNG("E-mail ou senha incorretos."),
 	CREDENTIALS_REQUEST_FORBBIDEN("A requisição foi negada pela API por não ser autenticada."),
+	SPEAKER_DOESNT_EXIST_DB("Palestrante não encontrado na base de dados."),
 	EVENT_DOESNT_EXISTS_DB("Evento não encontrado.");
 	
 	private String description;

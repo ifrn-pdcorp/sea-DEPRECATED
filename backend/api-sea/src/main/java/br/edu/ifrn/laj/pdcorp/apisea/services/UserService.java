@@ -18,14 +18,14 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 	
-	@Autowired
-	private AbstractValidationMediator<User> validator;
+//	@Autowired
+//	private AbstractValidationMediator<User> validator;
 	
 	public UserDTO save(User user) throws ApiException {
 		
-		if(validator.isInvalid(user)) {
-			throw validator.getBusinessInvalidation().getCause();
-		}
+//		if(validator.isInvalid(user)) {
+//			throw validator.getBusinessInvalidation().getCause();
+//		}
 		
 		return UserDTO.convertFromModel(repository.save(user)); 
 	}

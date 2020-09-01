@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 
 @RestController
@@ -43,13 +44,20 @@ public class EventController {
 	public EventDTO add(@RequestBody @Valid EventDTO event) {
 		return eventService.add(event.convertToModel());
 	}
-	
-   
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid EventDTO event) {
 		try {
 			return ResponseEntity.ok(eventService.update(id, event.convertToModel()));
+		} catch (ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PutMapping("/activities/{id}")
+	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity){
+		try {
+			return ResponseEntity.ok(eventService.addActivity(activity, idEvent));
 		} catch (ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

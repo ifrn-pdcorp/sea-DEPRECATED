@@ -1,6 +1,5 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,8 +7,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.repositories.EventRepository;
 
 @Service
@@ -30,6 +32,14 @@ public class EventService {
 		return EventDTO.convertFromModel(optional.get());
 	}
 	
+	private Event findModelById(Long id) throws ApiEventException {
+		Optional<Event> optional = eventRepository.findById(id);
+		if (optional.isEmpty())
+			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
+		return optional.get();
+	}
+	
+	
 	public List<EventDTO> findAll() {
 		List<Event> events = eventRepository.findAll();
 		return EventDTO.convertFromModel(events);
@@ -38,6 +48,12 @@ public class EventService {
 	public List<EventDTO> findAllIsActive() {
 		List<Event> events = eventRepository.findAllByActiveIsTrue();
 		return EventDTO.convertFromModel(events);
+	}
+	
+	public EventDTO addActivity(Activity activity, Long idEvent) throws ApiEventException {
+		Event event = this.findModelById(idEvent);
+	    event.addActivity(activity);
+	    return this.add(event);
 	}
 
 	public EventDTO update(Long id, Event event) throws ApiEventException {
