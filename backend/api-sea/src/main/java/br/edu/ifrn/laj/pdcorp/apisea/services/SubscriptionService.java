@@ -40,10 +40,6 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscription);
 	}
 
-	public List<SubscriptionDTO> findAll() {
-		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAll());
-	}
-
 	public List<SubscriptionDTO> findAllByEventId(Principal principal, Long eventId) throws ApiSubscriptionException {
 		Event event = this.findEventById(eventId);
 		User user = this.findUserAuthenticated(principal);
