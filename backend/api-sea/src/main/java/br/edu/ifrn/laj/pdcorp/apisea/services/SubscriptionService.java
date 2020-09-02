@@ -88,8 +88,8 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(existent));
 	}
 
-	public void delete(Principal principal, Subscription subscription) throws ApiSubscriptionException {
-		Subscription existent = this.findSubscriptionById(subscription.getId());
+	public void delete(Principal principal, Long id) throws ApiSubscriptionException {
+		Subscription existent = this.findSubscriptionById(id);
 
 		User user = this.findUserAuthenticated(principal);
 
