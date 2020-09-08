@@ -6,7 +6,10 @@ public enum ExceptionMessages {
 	USER_DOESNT_EXISTS_DB("Usuário não encontrado para o e-mail informado."),
 	CREDENTIALS_IS_WORNG("E-mail ou senha incorretos."),
 	CREDENTIALS_REQUEST_FORBBIDEN("A requisição foi negada pela API por não ser autenticada."),
-	EVENT_DOESNT_EXISTS_DB("Evento não encontrado.");
+	USER_REQUEST_FORBBIDEN("A requisição não permitida para este usuário."),
+	EVENT_DOESNT_EXISTS_DB("Evento não encontrado."),
+	SUBSCRIPTION_DOESNT_EXISTS_DB("Inscrição não encontrada."), 
+	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe.");
 	
 	private String description;
 	
