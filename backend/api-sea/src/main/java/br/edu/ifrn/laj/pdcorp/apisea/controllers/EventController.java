@@ -1,5 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -41,14 +42,19 @@ public class EventController {
 	}
 
 	@PostMapping
-	public EventDTO add(@RequestBody @Valid EventDTO event) {
-		return eventService.add(event.convertToModel());
+	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid EventDTO event) {
+
+		try {
+			return ResponseEntity.ok(eventService.add(principal, event.convertToModel()));
+		} catch (ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid EventDTO event) {
+	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody @Valid EventDTO event) {
 		try {
-			return ResponseEntity.ok(eventService.update(id, event.convertToModel()));
+			return ResponseEntity.ok(eventService.update(principal, id, event.convertToModel()));
 		} catch (ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
@@ -64,9 +70,9 @@ public class EventController {
 	}
 
 	@PutMapping("/{id}/deactivate")
-	public ResponseEntity<?> deactivate(@PathVariable Long id) {
+	public ResponseEntity<?> deactivate(Principal principal, @PathVariable Long id) {
 		try {
-			return ResponseEntity.ok(eventService.deactivate(id));
+			return ResponseEntity.ok(eventService.deactivate(principal, id));
 		} catch (ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
