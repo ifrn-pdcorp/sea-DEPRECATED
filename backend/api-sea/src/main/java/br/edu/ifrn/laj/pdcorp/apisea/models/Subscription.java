@@ -1,11 +1,13 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +27,14 @@ public class Subscription {
 	@ManyToOne
 	@NotNull
 	private Event event;
+	
+	@ManyToMany
+	private List<Activity> activities;
+	
+	
+	public void registerNewActivity(Activity activity) {
+		this.activities.add(activity);
+	}
 
 	public Long getId() {
 		return id;
@@ -56,6 +66,14 @@ public class Subscription {
 
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ public enum ExceptionMessages {
 	EVENT_DOESNT_EXISTS_DB("Evento não encontrado."),
 	USER_REQUEST_FORBBIDEN("A requisição não permitida para este usuário."),
 	SUBSCRIPTION_DOESNT_EXISTS_DB("Inscrição não encontrada."), 
+	ACTIVITY_IS_NOT_VALID("Atividade não é válida para esta operação."),
 	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe.");
 	
 	private String description;

@@ -36,7 +36,7 @@ public class Activity {
 	@Column(name = "max_number_of_participants")
 	private int maxNumberOfParticipants;
 	@ManyToMany
-	private List<User> participants;
+	private List<Subscription> participants;
 
 	@Column(name = "type_activity")
 	@Enumerated(EnumType.STRING)
@@ -46,9 +46,9 @@ public class Activity {
 		this.speakers.add(speaker);
 	}
 
-	public void addParticipant(User user) {
+	public void addParticipant(Subscription subscription) {
 		if (verifyAvailabilityOfList()) {
-			this.participants.add(user);
+			this.participants.add(subscription);
 		}
 	}
 
@@ -114,7 +114,8 @@ public class Activity {
 		this.maxNumberOfParticipants = maxNumberOfParticipants;
 	}
 
-	public List<User> getParticipants() {
+	
+	public List<Subscription> getParticipants() {
 		return participants;
 	}
 

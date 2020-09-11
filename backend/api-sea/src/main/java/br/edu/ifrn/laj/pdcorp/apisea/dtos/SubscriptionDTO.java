@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 
 public class SubscriptionDTO {
@@ -15,23 +16,27 @@ public class SubscriptionDTO {
 
 	private EventDTO event;
 	
+	private List<Activity> activities;
+	
 	public SubscriptionDTO() {
 		super();
 	}
 
-	public SubscriptionDTO(Long id, Calendar lastChangeDate, UserDTO user, EventDTO event) {
+	public SubscriptionDTO(Long id, Calendar lastChangeDate, UserDTO user, EventDTO event, List<Activity> activities) {
 		this();
 		this.id = id;
 		this.lastChangeDate = lastChangeDate;
 		this.user = user;
 		this.event = event;
+		this.activities = activities;
 	}
 	
 	public SubscriptionDTO(Subscription subscription) {
 		this(subscription.getId(),
 				subscription.getLastChangeDate(),
 				UserDTO.convertFromModel(subscription.getUser()),
-				EventDTO.convertFromModel(subscription.getEvent()));
+				EventDTO.convertFromModel(subscription.getEvent()),
+				subscription.getActivities());
 	}
 	
 	public static SubscriptionDTO convertFromModel(Subscription subscription) {
@@ -78,5 +83,11 @@ public class SubscriptionDTO {
 	public void setEvent(EventDTO event) {
 		this.event = event;
 	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+	
+	
 
 }
