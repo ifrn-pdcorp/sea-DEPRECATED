@@ -9,7 +9,8 @@ public enum ExceptionMessages {
 	USER_REQUEST_FORBBIDEN("A requisição não permitida para este usuário."),
 	EVENT_DOESNT_EXISTS_DB("Evento não encontrado."),
 	SUBSCRIPTION_DOESNT_EXISTS_DB("Inscrição não encontrada."), 
-	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe.");
+	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe."), 
+	INVALID_DATETIME_FOR_SUBSCRIPTION("A data atual não está dentro do período de inscrição");
 	
 	private String description;
 	
