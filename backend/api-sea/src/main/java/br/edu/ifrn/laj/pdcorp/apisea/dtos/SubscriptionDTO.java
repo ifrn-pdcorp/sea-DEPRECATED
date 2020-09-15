@@ -1,7 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.dtos;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
@@ -9,7 +9,7 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 public class SubscriptionDTO {
 
 	private Long id;
-	private Calendar lastChangeDate;
+	private LocalDateTime lastChangeDate;
 
 	private UserDTO user;
 
@@ -19,7 +19,7 @@ public class SubscriptionDTO {
 		super();
 	}
 
-	public SubscriptionDTO(Long id, Calendar lastChangeDate, UserDTO user, EventDTO event) {
+	public SubscriptionDTO(Long id, LocalDateTime lastChangeDate, UserDTO user, EventDTO event) {
 		this();
 		this.id = id;
 		this.lastChangeDate = lastChangeDate;
@@ -55,11 +55,11 @@ public class SubscriptionDTO {
 		this.id = id;
 	}
 
-	public Calendar getLastChangeDate() {
+	public LocalDateTime getLastChangeDate() {
 		return lastChangeDate;
 	}
 
-	public void setLastChangeDate(Calendar lastChangeDate) {
+	public void setLastChangeDate(LocalDateTime lastChangeDate) {
 		this.lastChangeDate = lastChangeDate;
 	}
 
