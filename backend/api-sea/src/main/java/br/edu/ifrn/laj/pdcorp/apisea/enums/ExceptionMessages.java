@@ -10,7 +10,8 @@ public enum ExceptionMessages {
 	EVENT_DOESNT_EXISTS_DB("Evento não encontrado."),
 	SUBSCRIPTION_DOESNT_EXISTS_DB("Inscrição não encontrada."), 
 	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe."), 
-	INVALID_DATETIME_FOR_SUBSCRIPTION("A data atual não está dentro do período de inscrição");
+	INVALID_DATETIME_FOR_SUBSCRIPTION("A data atual não está dentro do período de inscrição"), 
+	EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION("Não é possível se inscrever em eventos inativos.");
 	
 	private String description;
 	

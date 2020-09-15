@@ -60,6 +60,9 @@ public class SubscriptionService {
 		User user = this.findUserAuthenticated(principal);
 		Event event = this.findEventById(subscription.getEvent().getId());
 
+		if(!event.isActive())
+			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
+		
 		LocalDateTime actualLocalDateTime = LocalDateTime.now();
 
 		if (!this.isLocalDateTimeValidForSubscriptionInEvent(actualLocalDateTime, event))
@@ -80,6 +83,9 @@ public class SubscriptionService {
 			throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(id);
 		User user = this.findUserAuthenticated(principal);
+		
+		if(!existent.getEvent().isActive())
+			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
 		
 		LocalDateTime actualLocalDateTime = LocalDateTime.now();
 
