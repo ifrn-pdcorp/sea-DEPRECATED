@@ -1,7 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.dtos;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
@@ -22,17 +22,17 @@ public class EventDTO {
 	private String thumbPath;
 
 	@NotNull
-	private Calendar subscriptionStart;
+	private LocalDateTime subscriptionStart;
 
 	@NotNull
-	private Calendar subscriptionEnd;
+	private LocalDateTime subscriptionEnd;
 
 	public EventDTO() {
 		super();
 	}
 
 	public EventDTO(@NotNull Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
-			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd) {
+			@NotNull LocalDateTime subscriptionStart, @NotNull LocalDateTime subscriptionEnd) {
 		this();
 		this.id = id;
 		this.name = name;
@@ -98,19 +98,19 @@ public class EventDTO {
 		this.thumbPath = thumbPath;
 	}
 
-	public Calendar getSubscriptionStart() {
+	public LocalDateTime getSubscriptionStart() {
 		return subscriptionStart;
 	}
 
-	public void setSubscriptionStart(Calendar subscriptionStart) {
+	public void setSubscriptionStart(LocalDateTime subscriptionStart) {
 		this.subscriptionStart = subscriptionStart;
 	}
 
-	public Calendar getSubscriptionEnd() {
+	public LocalDateTime getSubscriptionEnd() {
 		return subscriptionEnd;
 	}
 
-	public void setSubscriptionEnd(Calendar subscriptionEnd) {
+	public void setSubscriptionEnd(LocalDateTime subscriptionEnd) {
 		this.subscriptionEnd = subscriptionEnd;
 	}
 

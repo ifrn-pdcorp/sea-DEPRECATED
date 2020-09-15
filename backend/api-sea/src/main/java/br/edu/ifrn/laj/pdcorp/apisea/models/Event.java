@@ -1,6 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,10 +28,10 @@ public class Event {
 	private String thumbPath;
 
 	@NotNull
-	private Calendar subscriptionStart;
+	private LocalDateTime subscriptionStart;
 
 	@NotNull
-	private Calendar subscriptionEnd;
+	private LocalDateTime subscriptionEnd;
 
 	@ManyToOne
 	@NotNull
@@ -44,7 +44,7 @@ public class Event {
 	}
 
 	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
-			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd) {
+			@NotNull LocalDateTime subscriptionStart, @NotNull LocalDateTime subscriptionEnd) {
 		this();
 		this.id = id;
 		this.name = name;
@@ -55,7 +55,7 @@ public class Event {
 	}
 
 	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
-			@NotNull Calendar subscriptionStart, @NotNull Calendar subscriptionEnd, @NotNull User owner) {
+			@NotNull LocalDateTime subscriptionStart, @NotNull LocalDateTime subscriptionEnd, @NotNull User owner) {
 		this(id, name, summary, thumbPath, subscriptionStart, subscriptionEnd);
 		this.owner = owner;
 	}
@@ -92,19 +92,19 @@ public class Event {
 		this.thumbPath = thumbPath;
 	}
 
-	public Calendar getSubscriptionStart() {
+	public LocalDateTime getSubscriptionStart() {
 		return subscriptionStart;
 	}
 
-	public void setSubscriptionStart(Calendar subscriptionStart) {
+	public void setSubscriptionStart(LocalDateTime subscriptionStart) {
 		this.subscriptionStart = subscriptionStart;
 	}
 
-	public Calendar getSubscriptionEnd() {
+	public LocalDateTime getSubscriptionEnd() {
 		return subscriptionEnd;
 	}
 
-	public void setSubscriptionEnd(Calendar subscriptionEnd) {
+	public void setSubscriptionEnd(LocalDateTime subscriptionEnd) {
 		this.subscriptionEnd = subscriptionEnd;
 	}
 
