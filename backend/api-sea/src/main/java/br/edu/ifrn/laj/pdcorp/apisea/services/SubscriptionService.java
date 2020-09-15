@@ -1,6 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class SubscriptionService {
 		if (subscriptionRepository.findByUserAndEvent(user, event) != null)
 			throw new ApiSubscriptionException(ExceptionMessages.SUBSCRIPTION_ALREADY_EXISTS);
 
-		subscription.setLastChangeDate(Calendar.getInstance());
+		subscription.setLastChangeDate(LocalDateTime.now());
 
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
 	}
@@ -79,7 +80,7 @@ public class SubscriptionService {
 			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
 
 		BeanUtils.copyProperties(subscription, existent, "id", "user", "event");
-		existent.setLastChangeDate(Calendar.getInstance());
+		existent.setLastChangeDate(LocalDateTime.now());
 
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(existent));
 	}
