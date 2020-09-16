@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SubscriptionService;
 
@@ -25,6 +27,8 @@ public class SubscriptionController {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
+	
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id) {
@@ -60,6 +64,16 @@ public class SubscriptionController {
 		} catch (ApiSubscriptionException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
+	}
+	
+	@PutMapping("/{subscriptionId}/activities/{activityId}")
+	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
+		try {
+			return ResponseEntity.ok(this.subscriptionService.registerNewActivity(principal, activityId, subscriptionId));
+		} catch (ApiSubscriptionException | ApiEventException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		} 
+		
 	}
 
 	@PutMapping("/{id}")

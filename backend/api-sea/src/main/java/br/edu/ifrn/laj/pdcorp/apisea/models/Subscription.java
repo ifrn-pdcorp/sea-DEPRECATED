@@ -1,13 +1,17 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
-
+import java.util.List;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
+import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 
 @Entity
 public class Subscription {
@@ -25,6 +29,17 @@ public class Subscription {
 	@ManyToOne
 	@NotNull
 	private Event event;
+	
+	@ManyToMany
+	private List<Activity> activities;
+	
+	
+	public void registerNewActivity(Activity activity) throws ApiEventException {
+		if(!event.checkExistence(activity)) {
+			throw new ApiEventException(ExceptionMessages.ACTIVITY_DOESNT_EXIST_IN_EVENT);
+		}
+		this.activities.add(activity);
+	}
 
 	public Long getId() {
 		return id;
@@ -56,6 +71,14 @@ public class Subscription {
 
 	public void setEvent(Event event) {
 		this.event = event;
+	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
 	}
 
 	@Override

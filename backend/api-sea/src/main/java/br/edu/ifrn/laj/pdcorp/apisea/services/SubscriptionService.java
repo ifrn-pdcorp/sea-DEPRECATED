@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.SubscriptionDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
@@ -29,6 +31,8 @@ public class SubscriptionService {
 	private EventRepository eventRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private ActivityService activityService;
 
 	public SubscriptionDTO findById(Principal principal, Long id) throws ApiSubscriptionException {
 		Subscription subscription = this.findSubscriptionById(id);
@@ -39,6 +43,19 @@ public class SubscriptionService {
 			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
 
 		return SubscriptionDTO.convertFromModel(subscription);
+	}
+	
+	
+	public SubscriptionDTO registerNewActivity(Principal principal, Long activityId, Long idSubscription) throws ApiSubscriptionException, ApiEventException {
+		SubscriptionDTO validated = findById(principal, idSubscription);
+		Subscription subscription = this.findSubscriptionById(validated.getId());
+		Activity activity = this.activityService.findById(activityId);
+		
+		subscription.registerNewActivity(activity);
+		activity.addParticipant(subscription);
+		
+		this.activityService.update(activity);
+		return this.update(principal, subscription.getId(), subscription);
 	}
 
 	public List<SubscriptionDTO> findAllByEventId(Principal principal, Long eventId) throws ApiSubscriptionException {

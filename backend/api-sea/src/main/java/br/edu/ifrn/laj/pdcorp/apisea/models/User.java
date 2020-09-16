@@ -20,7 +20,7 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.enums.UserType;
 @Table(name = "user_sea")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(name = "name", nullable = false)
 	private String name;

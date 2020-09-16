@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 
 public class EventDTO {
@@ -24,6 +25,9 @@ public class EventDTO {
 	@NotNull
 	private LocalDateTime subscriptionStart;
 
+	private List<Activity> activities;
+	
+
 	@NotNull
 	private LocalDateTime subscriptionEnd;
 
@@ -31,8 +35,9 @@ public class EventDTO {
 		super();
 	}
 
-	public EventDTO(@NotNull Long id, @NotBlank String name, @NotBlank String summary, String thumbPath,
+	public EventDTO(@NotNull Long id, @NotBlank String name, @NotBlank String summary, String thumbPath, List<Activity> activities,
 			@NotNull LocalDateTime subscriptionStart, @NotNull LocalDateTime subscriptionEnd) {
+
 		this();
 		this.id = id;
 		this.name = name;
@@ -40,10 +45,11 @@ public class EventDTO {
 		this.thumbPath = thumbPath;
 		this.subscriptionStart = subscriptionStart;
 		this.subscriptionEnd = subscriptionEnd;
+		this.activities = activities;
 	}
 
 	public EventDTO(Event event) {
-		this(event.getId(), event.getName(), event.getSummary(), event.getThumbPath(), event.getSubscriptionStart(),
+		this(event.getId(), event.getName(), event.getSummary(), event.getThumbPath(),event.getActivities(), event.getSubscriptionStart(),
 				event.getSubscriptionEnd());
 	}
 
@@ -62,7 +68,7 @@ public class EventDTO {
 	}
 
 	public Event convertToModel() {
-		return new Event(this.getId(), this.getName(), this.getSummary(), this.getThumbPath(),
+		return new Event(this.getId(), this.getName(), this.getSummary(), this.getThumbPath(),this.getActivities(),
 				this.getSubscriptionStart(), this.getSubscriptionEnd());
 	}
 
@@ -113,5 +119,15 @@ public class EventDTO {
 	public void setSubscriptionEnd(LocalDateTime subscriptionEnd) {
 		this.subscriptionEnd = subscriptionEnd;
 	}
+
+	public List<Activity> getActivities() {
+		return activities;
+	}
+
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
+	
+	
 
 }

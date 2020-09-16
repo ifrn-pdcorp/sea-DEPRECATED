@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
+import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Event;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.repositories.EventRepository;
@@ -30,6 +31,10 @@ public class EventService {
 		event.setOwner(user);
 		return EventDTO.convertFromModel(eventRepository.save(event));
 	}
+	
+	public EventDTO update(Event event) {
+		return EventDTO.convertFromModel(eventRepository.save(event));
+	}
 
 	public EventDTO findById(Long id) throws ApiEventException {
 		Optional<Event> optional = eventRepository.findById(id);
@@ -37,7 +42,15 @@ public class EventService {
 			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
 		return EventDTO.convertFromModel(optional.get());
 	}
-
+	
+	private Event findModelById(Long id) throws ApiEventException {
+		Optional<Event> optional = eventRepository.findById(id);
+		if (optional.isEmpty())
+			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
+		return optional.get();
+	}
+	
+	
 	public List<EventDTO> findAll() {
 		List<Event> events = eventRepository.findAll();
 		return EventDTO.convertFromModel(events);
@@ -46,6 +59,12 @@ public class EventService {
 	public List<EventDTO> findAllIsActive() {
 		List<Event> events = eventRepository.findAllByActiveIsTrue();
 		return EventDTO.convertFromModel(events);
+	}
+	
+	public EventDTO addActivity(Activity activity, Long idEvent) throws ApiEventException {
+		Event event = this.findModelById(idEvent);
+	    event.addActivity(activity);
+	    return this.update(event);
 	}
 
 	public EventDTO update(Principal principal, Long id, Event event) throws ApiEventException {
