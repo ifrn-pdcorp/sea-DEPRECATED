@@ -1,6 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -59,13 +60,21 @@ public class SubscriptionService {
 		User user = this.findUserAuthenticated(principal);
 		Event event = this.findEventById(subscription.getEvent().getId());
 
+		if(!event.isActive())
+			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
+		
+		LocalDateTime actualLocalDateTime = LocalDateTime.now();
+
+		if (!this.isLocalDateTimeValidForSubscriptionInEvent(actualLocalDateTime, event))
+			throw new ApiSubscriptionException(ExceptionMessages.INVALID_DATETIME_FOR_SUBSCRIPTION);
+
 		subscription.setEvent(event);
 		subscription.setUser(user);
 
 		if (subscriptionRepository.findByUserAndEvent(user, event) != null)
 			throw new ApiSubscriptionException(ExceptionMessages.SUBSCRIPTION_ALREADY_EXISTS);
 
-		subscription.setLastChangeDate(Calendar.getInstance());
+		subscription.setLastChangeDate(actualLocalDateTime);
 
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
 	}
@@ -74,12 +83,20 @@ public class SubscriptionService {
 			throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(id);
 		User user = this.findUserAuthenticated(principal);
+		
+		if(!existent.getEvent().isActive())
+			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
+		
+		LocalDateTime actualLocalDateTime = LocalDateTime.now();
+
+		if (!this.isLocalDateTimeValidForSubscriptionInEvent(actualLocalDateTime, existent.getEvent()))
+			throw new ApiSubscriptionException(ExceptionMessages.INVALID_DATETIME_FOR_SUBSCRIPTION);
 
 		if (!user.getId().equals(existent.getUser().getId()))
 			throw new ApiSubscriptionException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
 
 		BeanUtils.copyProperties(subscription, existent, "id", "user", "event");
-		existent.setLastChangeDate(Calendar.getInstance());
+		existent.setLastChangeDate(actualLocalDateTime);
 
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(existent));
 	}
@@ -114,6 +131,14 @@ public class SubscriptionService {
 		if (user == null)
 			throw new ApiSubscriptionException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
 		return user;
+	}
+
+	private boolean isLocalDateTimeValidForSubscriptionInEvent(LocalDateTime actualDateTime, Event event) {
+		if (actualDateTime.isEqual(event.getSubscriptionStart()) || actualDateTime.isEqual(event.getSubscriptionEnd()))
+			return true;
+		if (actualDateTime.isAfter(event.getSubscriptionStart()) && actualDateTime.isBefore(event.getSubscriptionEnd()))
+			return true;
+		return false;
 	}
 
 }

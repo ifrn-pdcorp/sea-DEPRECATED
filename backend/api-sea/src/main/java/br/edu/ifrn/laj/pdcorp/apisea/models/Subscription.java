@@ -1,6 +1,6 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +16,7 @@ public class Subscription {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Calendar lastChangeDate;
+	private LocalDateTime lastChangeDate;
 
 	@ManyToOne
 	@NotNull
@@ -34,11 +34,11 @@ public class Subscription {
 		this.id = id;
 	}
 
-	public Calendar getLastChangeDate() {
+	public LocalDateTime getLastChangeDate() {
 		return lastChangeDate;
 	}
 
-	public void setLastChangeDate(Calendar lastChangeDate) {
+	public void setLastChangeDate(LocalDateTime lastChangeDate) {
 		this.lastChangeDate = lastChangeDate;
 	}
 
