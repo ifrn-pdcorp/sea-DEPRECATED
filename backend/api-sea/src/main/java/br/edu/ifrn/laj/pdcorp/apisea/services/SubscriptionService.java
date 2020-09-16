@@ -46,12 +46,14 @@ public class SubscriptionService {
 	}
 	
 	
-	public SubscriptionDTO registerNewActivity(Principal principal, Activity activity, Long idSubscription) throws ApiSubscriptionException, ApiEventException {
+	public SubscriptionDTO registerNewActivity(Principal principal, Long activityId, Long idSubscription) throws ApiSubscriptionException, ApiEventException {
 		SubscriptionDTO validated = findById(principal, idSubscription);
 		Subscription subscription = this.findSubscriptionById(validated.getId());
+		Activity activity = this.activityService.findById(activityId);
 		
 		subscription.registerNewActivity(activity);
 		activity.addParticipant(subscription);
+		
 		this.activityService.update(activity);
 		return this.update(principal, subscription.getId(), subscription);
 	}

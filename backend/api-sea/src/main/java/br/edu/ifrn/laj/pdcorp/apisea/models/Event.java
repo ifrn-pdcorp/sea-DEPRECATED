@@ -69,6 +69,12 @@ public class Event {
 		this(id, name, summary, thumbPath, activities, subscriptionStart, subscriptionEnd);
 		this.owner = owner;
 	}
+	
+	public boolean checkExistence(Activity activity) {
+		return this.getActivities()
+				.stream()
+				.anyMatch(act -> act.getId().equals(activity.getId()));
+	}
 
 	public Long getId() {
 		return id;

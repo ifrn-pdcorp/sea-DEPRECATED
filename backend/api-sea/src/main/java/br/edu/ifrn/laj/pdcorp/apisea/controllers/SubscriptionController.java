@@ -66,10 +66,10 @@ public class SubscriptionController {
 		}
 	}
 	
-	@PutMapping("/{subscriptionId}/activities")
-	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Activity activity){
+	@PutMapping("/{subscriptionId}/activities/{activityId}")
+	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
 		try {
-			return ResponseEntity.ok(this.subscriptionService.registerNewActivity(principal, activity, subscriptionId));
+			return ResponseEntity.ok(this.subscriptionService.registerNewActivity(principal, activityId, subscriptionId));
 		} catch (ApiSubscriptionException | ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		} 

@@ -10,6 +10,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
+
 @Entity
 public class Subscription {
 
@@ -31,7 +34,10 @@ public class Subscription {
 	private List<Activity> activities;
 	
 	
-	public void registerNewActivity(Activity activity) {
+	public void registerNewActivity(Activity activity) throws ApiEventException {
+		if(!event.checkExistence(activity)) {
+			throw new ApiEventException(ExceptionMessages.ACTIVITY_DOESNT_EXIST_IN_EVENT);
+		}
 		this.activities.add(activity);
 	}
 

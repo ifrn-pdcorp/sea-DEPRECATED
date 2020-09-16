@@ -27,4 +27,14 @@ public class ActivityService {
 		BeanUtils.copyProperties(activity, existent, "id");
 		this.repository.save(existent);
 	}
+	
+	
+	public Activity findById(Long id) throws ApiEventException {
+		Optional<Activity> opt = this.repository.findById(id);
+		if(!opt.isPresent()) {
+			throw new ApiEventException(ExceptionMessages.ACTIVITY_IS_NOT_VALID);
+		}
+		
+		return opt.get();
+	}
 }
