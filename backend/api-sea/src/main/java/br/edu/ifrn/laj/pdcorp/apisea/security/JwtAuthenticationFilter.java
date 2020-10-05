@@ -8,7 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -18,10 +22,10 @@ public class JwtAuthenticationFilter extends GenericFilter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request);
-
+		Authentication authentication = TokenAuthenticationUtil.getAuthentication((HttpServletRequest) request, (HttpServletResponse) response);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		chain.doFilter(request, response);
+
 	}
 
 }
