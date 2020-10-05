@@ -51,20 +51,20 @@ public class TokenAuthenticationUtil {
 		String token = request.getHeader(HEADER_STRING);
 		String user = "";
 		if (!StringUtils.isEmpty(token)) {
-			try {
-				 user = Jwts.parser()
-						.setSigningKey(SECRET)
-						.parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim())
-						.getBody()
-						.getSubject();
+				try {
+					 user = Jwts.parser()
+							.setSigningKey(SECRET)
+							.parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim())
+							.getBody()
+							.getSubject();
 
-			} catch (MalformedJwtException | SignatureException | UnsupportedJwtException ex){
-				/* Em casos de tokens maliciosos (gerados randomicamente, por exemplo), o método
-				* devera lançar uma destas exceptions, e para que a aplicação não quebre, as exceptions
-				* devem ser capturadas, invalidando o usuário que tenta logar com uma string vazia, que ao
-				* chegar no filter, lançará um 'access denied.' */
-				user = "";
-			}
+				} catch (MalformedJwtException | SignatureException | UnsupportedJwtException ex){
+					/* Em casos de tokens maliciosos (gerados randomicamente, por exemplo), o método
+					* devera lançar uma destas exceptions, e para que a aplicação não quebre, as exceptions
+					* devem ser capturadas, invalidando o usuário que tenta logar com uma string vazia, que ao
+					* chegar no filter, lançará um 'access denied.' */
+					user = "";
+				}
 
 			if (!StringUtils.isEmpty(user)) {
 				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());	

@@ -2,10 +2,7 @@ package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +29,7 @@ public class UploadService {
 		return nameWithPrefix.toString();
 	}
 	
-	public byte[] downloadThumbnail(String imageName) throws IOException {
+	public byte[] downloadThumbnail(String imageName) throws IOException, NoSuchFileException {
 		
 		StringBuilder pathBuilder = new StringBuilder(uploadConfig.getSource());
 		pathBuilder.append(File.separator).append(imageName);
