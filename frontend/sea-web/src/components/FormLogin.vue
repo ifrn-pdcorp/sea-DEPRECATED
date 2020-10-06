@@ -19,7 +19,7 @@
 			placeholder="••••••"
 			required>
 
-             <router-link to="/events"> <button class=" button btn">Entrar </button> </router-link>
+             <button class=" button btn"> <router-link to="/events">Entrar </router-link> </button> 
 		</form>
 	</div>
 </template>
@@ -29,6 +29,7 @@ export default {
     name: 'FormLogin'
 
 }
+
 </script>
 
 <style scoped>

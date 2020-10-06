@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Events from '../views/Events.vue'
+import NewUser from '../views/NewUser.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,13 @@ Vue.use(VueRouter)
     name: 'Events',
     component: Events
   },
+  {
+    path: '/newuser',
+    name: 'NewUser',
+    component: NewUser
+  },
 ]
+
 
 const router = new VueRouter({
   mode: 'history',
