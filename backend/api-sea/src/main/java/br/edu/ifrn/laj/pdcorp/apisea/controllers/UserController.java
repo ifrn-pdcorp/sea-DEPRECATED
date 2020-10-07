@@ -28,7 +28,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<UserDTO>(this.userService.save(user), HttpStatus.OK);
 		} catch (ApiException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 		}
 	}
 	
