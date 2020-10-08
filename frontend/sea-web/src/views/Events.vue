@@ -1,18 +1,37 @@
 <template>
-  <div class="content container">
-    <h1> Página eventos</h1>
+  <div class=" container">
+    <h1 class="title">Eventos</h1>
+    <hr />
+    <section class="events">
+      <CardEvent></CardEvent>
+      <CardEvent></CardEvent>
+      <CardEvent></CardEvent>
+       
+    </section>
   </div>
 </template>
 
 <script>
-
+import CardEvent from "@/components/CardEvent.vue";
 export default {
-  name: 'Events',
+  name: "Events",
   components: {
+    CardEvent
   }
-}
+};
 </script>
 
-<style>
+<style scoped>
 
+
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: justify;
+  padding-left: 30px;
+}
+
+.container h1 {
+  font-size: 50px;
+}
 </style>
