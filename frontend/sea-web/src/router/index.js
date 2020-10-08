@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Events from '../views/Events.vue'
 import NewUser from '../views/NewUser.vue'
+import AboutEvent from '../views/AboutEvent.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ Vue.use(VueRouter)
     path: '/newuser',
     name: 'NewUser',
     component: NewUser
+  },
+  {
+    path: '/aboutevent',
+    name: 'AboutEvent',
+    component: AboutEvent
   },
 ]
 

@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-
+/* ### CARDS ### */
 .card {
   display: flex;
   padding: 12px;
