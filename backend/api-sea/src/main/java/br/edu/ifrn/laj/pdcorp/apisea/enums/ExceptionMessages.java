@@ -14,7 +14,8 @@ public enum ExceptionMessages {
 	ACTIVITY_DOESNT_EXIST_IN_EVENT("Atividade não está registrada no evento associado."),
 	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe."), 
 	INVALID_DATETIME_FOR_SUBSCRIPTION("A data atual não está dentro do período de inscrição"), 
-	EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION("Não é possível se inscrever em eventos inativos.");
+	EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION("Não é possível se inscrever em eventos inativos."),
+	USER_EMAIL_INVALID_FORMAT("O formato do e-mail é inválido");
 	
 	private String description;
 	

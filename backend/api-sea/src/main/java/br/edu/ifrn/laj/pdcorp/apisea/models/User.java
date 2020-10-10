@@ -6,8 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 
-import org.hibernate.annotations.GeneratorType;
 
 import br.edu.ifrn.laj.pdcorp.apisea.models.enums.UserType;
 
@@ -25,6 +25,7 @@ public class User {
 	@Column(name = "name", nullable = false)
 	private String name;
 	@Column(name = "email", nullable = false, unique = true)
+	@Email
 	private String email;
 	@Column(name = "password", nullable = false)
 	private String password;
