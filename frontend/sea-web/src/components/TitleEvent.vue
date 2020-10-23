@@ -9,7 +9,7 @@ export default {
     name: "TitleEvent",
 }
 
-window.onscroll = function() {eventname()};
+/*window.onscroll = function() {eventname()};
 
 function eventname() {
 
@@ -19,7 +19,7 @@ function eventname() {
     document.getElementById("nameEvent").style.opacity = "0";
   }
 
-}
+}*/
 </script>
 
 <style scoped>

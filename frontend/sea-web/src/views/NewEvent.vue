@@ -1,6 +1,6 @@
 <template>
   <div class="container content">
-    <FormNewUser></FormNewUser>
+    <FormNewEvent></FormNewEvent>
     
     <img class="img-background" id="left" src="../assets/img-cadastro.png" />
     <img class="img-background" id="right" src="../assets/img-cadastro.png" />
@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import FormNewUser from "@/components/FormNewUser.vue"
+import FormNewEvent from "@/components/FormNewEvent.vue"
 
 export default {
-  name: 'NewUser',
-  components: {FormNewUser}
+  name: 'NewForm',
+  components: {FormNewEvent}
 };
 </script>
 
