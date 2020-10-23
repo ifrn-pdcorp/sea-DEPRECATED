@@ -1,6 +1,6 @@
 <template>
   <div class="container-form">
-    <form>
+    <form @submit.prevent="save">
       <h1>Cadastre-se</h1>
       <hr />
 
@@ -16,7 +16,6 @@
                 name="editpiprofile"
                 id="editpiprofile"
                 onchange="showPicProfile(this)"
-                required
               />
             </div>
           </figure>
@@ -27,12 +26,12 @@
             <div class="col-12 field" style="margin: 0px;">
               <label for="nome">Nome</label>
               <input
+                v-model="user.name"
                 type="text"
                 class="form-control form-control-lg"
                 name="nome"
                 id="nome"
                 placeholder="João Silva"
-                required
               />
             </div>
           </div>
@@ -41,23 +40,23 @@
             <div class="col-6 field">
               <label for="escola">Escola</label>
               <input
+                v-model="user.school"
                 type="text"
                 class="form-control form-control-lg"
                 name="escola"
                 id="escola"
                 placeholder="Ex: IFRN - Campus Lajes"
-                required
               />
             </div>
             <div class="col-6 field">
               <label for="cidade">Cidade</label>
               <input
+                v-model="user.city"
                 type="text"
                 class="form-control form-control-lg"
                 name="cidade"
                 id="cidade"
                 placeholder="Ex: Lajes"
-                required
               />
             </div>
           </div>
@@ -68,21 +67,21 @@
         <div class="col-6 field">
           <label for="email">Email</label>
           <input
+            v-model="user.email"
             type="text"
             class="form-control form-control-lg"
             name="email"
             id="email"
             placeholder="Ex: IFRN - Campus Lajes"
-            required
           />
         </div>
         <div class="col-6 field">
           <label for="sel1">Tipo de usuário</label>
-          <select class="form-control form-control-lg" id="sel1">
-            <option>---</option>
-            <option>Aluno</option>
-            <option>Professor</option>
-            <option>Coordenador</option>
+          <select class="form-control form-control-lg" id="sel1" v-model="user.type">
+            <option value>---</option>
+            <option value="STUDENT">Aluno</option>
+            <option value="PROFESSOR">Professor</option>
+            <option value="CHEER">Coordenador</option>
           </select>
         </div>
       </div>
@@ -91,12 +90,12 @@
         <div class="col-6 field">
           <label for="senha">Senha</label>
           <input
+            v-model="user.password"
             type="password"
             class="form-control form-control-lg"
             name="senha"
             id="senha"
             placeholder="••••••"
-            required
           />
           <small
             id="passwordHelpBlock"
@@ -106,22 +105,24 @@
         <div class="col-6 field">
           <label for="senha">Confirme a senha</label>
           <input
+            v-model="checkPassword"
             type="password"
             class="form-control form-control-lg"
             name="senha"
             id="senha"
             placeholder="••••••"
-            required
           />
         </div>
       </div>
 
       <div class="row">
         <div class="btn-group">
-          <a class="btn button btn-cancel" href="index.html">Voltar</a>
+          <router-link to="/">
+            <button class="btn button btn-cancel">Voltar</button>
+          </router-link>
         </div>
         <div class="btn-group">
-          <button class="btn button">Cadastrar</button>
+          <button type="submit" class="btn button">Cadastrar</button>
         </div>
       </div>
     </form>
@@ -129,8 +130,46 @@
 </template>
 
 <script>
+import UsersService from "../services/users";
 export default {
-  name: "FormNewUser"
+  name: "FormNewUser",
+  data() {
+    return {
+      user: {
+        name: "",
+        email: "",
+        password: "",
+        school: "",
+        city: "",
+        type: ""
+      },
+      checkPassword: ""
+    };
+  },
+  methods: {
+    async save() {
+      console.log("Chamou o método salvar");
+      // Antes de salvar validar se senhas conferem
+      if (
+        this.user.password.length >= 8 &&
+        this.user.password.length <= 15 &&
+        this.user.password === this.checkPassword
+      ) {
+        UsersService.salvar(this.user)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e.response);
+          });
+      } else {
+        console.log("Senhas não conferem");
+      }
+    }
+  },
+  mounted() {
+    //this.save();
+  }
 };
 </script>
 
