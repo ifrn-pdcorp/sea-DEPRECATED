@@ -21,7 +21,10 @@ import org.slf4j.LoggerFactory;
 import br.edu.ifrn.laj.pdcorp.apisea.configs.UploadConfig;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.TypeImage;
 import br.edu.ifrn.laj.pdcorp.apisea.services.UploadService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Image Endpoint", description = "Control of images", tags="Image Endpoint")
 @RestController
 @RequestMapping("/upload")
 public class ImageController {
@@ -33,6 +36,7 @@ public class ImageController {
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 	
+	@ApiOperation(value = "View image per name")
 	@GetMapping("/{originalName}")
 	public ResponseEntity<?> getImage(@PathVariable String originalName) throws IOException {
 		try {
@@ -46,6 +50,7 @@ public class ImageController {
 		}
 	}
 	
+	@ApiOperation(value = "Add image")
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> upload(@RequestParam("image") MultipartFile image, @RequestParam("type_image") TypeImage type){
 		try {
