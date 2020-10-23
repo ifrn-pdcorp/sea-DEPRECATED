@@ -1,6 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,11 +35,15 @@ public class ImageController {
 	
 	@GetMapping("/{originalName}")
 	public ResponseEntity<?> getImage(@PathVariable String originalName) throws IOException {
-		byte[] thumbnail = this.uploadService
-				.downloadThumbnail(originalName);
-		return ResponseEntity.ok()
-				.contentType(MediaType.IMAGE_JPEG)
-				.body(thumbnail);
+		try {
+			byte[] thumbnail = this.uploadService
+					.downloadThumbnail(originalName);
+			return ResponseEntity.ok()
+					.contentType(MediaType.IMAGE_JPEG)
+					.body(thumbnail);
+		} catch (NoSuchFileException ex){
+			return ResponseEntity.badRequest().body("A imagem ".concat(ex.getLocalizedMessage()).concat(" não foi encontrada."));
+		}
 	}
 	
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

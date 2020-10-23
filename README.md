@@ -123,7 +123,7 @@ Para isso, os softwares obrigatórios descritos na sessão anterior precisam est
 ### Banco de dados
 Neste projeto utilizamos o banco de dados [PostgreSQL](https://www.postgresql.org/) e o executamos através de um container Docker. 
 A configuração desse container se encontra no arquivo `/backend/api-sea/docker-compose.yml`.
-Para executar o banco de dados entre na pasta `/backend/api-sea/` e execute o seguite comando no terminal:
+Para executar o banco de dados entre na pasta `/backend/api-sea/` e execute o seguinte comando no terminal:
 >`docker-compose up`
 
 Se o Docker tiver sido instalado corretamente, irá baixar as imagens necessárias e executará o container contendo o banco de dados.
