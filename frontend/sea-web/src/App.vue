@@ -35,6 +35,9 @@ a:hover {
   color: #ffffff;
   text-decoration: none;
 }
+.row {
+    margin: 0px;
+}
 .content {
   display: flex;
   align-items: center;
@@ -78,4 +81,6 @@ a:hover {
 .btn-group {
   width: 50%;
 }
+
+
 </style>

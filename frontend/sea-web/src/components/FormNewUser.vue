@@ -9,7 +9,7 @@
           <figure class="image">
             <img src="../assets/picprofile.jpg" alt="Avatar" id="picprofile" class="imagefile" />
 
-            <figurecaption class="overlay">
+            <div class="overlay">
               <label class="text" for="editpiprofile">Escolher foto</label>
               <input
                 type="file"
@@ -18,7 +18,7 @@
                 onchange="showPicProfile(this)"
                 required
               />
-            </figurecaption>
+            </div>
           </figure>
         </div>
 
@@ -135,25 +135,7 @@ export default {
 </script>
 
 <style scoped>
-/*### FORM ###*/
-
-.container-form {
-  background-color: #f7f7f7;
-  padding: 5%;
-  margin-top: 5%;
-  width: 75%;
-  box-shadow: 0px 0px 10px #888888;
-}
-.container-form .radio {
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  margin: 5% 0px;
-}
-.container-form .field {
-  margin-bottom: 3%;
-}
+@import url("../styles/forms.css");
 
 /* ### PIC PROFILE ###*/
 .container-form .image {
