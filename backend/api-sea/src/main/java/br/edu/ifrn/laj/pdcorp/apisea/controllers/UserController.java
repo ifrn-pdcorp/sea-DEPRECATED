@@ -26,7 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value = "Add or update user")
+	@ApiOperation(value = "Adicionar ou atualizar usuário")
 	@PostMapping
 	public ResponseEntity<?> saveOrEditUser(@RequestBody User user){
 		try {
@@ -36,7 +36,7 @@ public class UserController {
 		}
 	}
 	
-	@ApiOperation(value = "View user per email")
+	@ApiOperation(value = "Visualizar usuário por email")
 	@GetMapping("/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable("email") String email){
 		try {

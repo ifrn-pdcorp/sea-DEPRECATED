@@ -30,13 +30,13 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-	@ApiOperation(value = "List all events")
+	@ApiOperation(value = "Listar todos os eventos")
 	@GetMapping
 	public List<EventDTO> findAll() {
 		return eventService.findAllIsActive();
 	}
 
-	@ApiOperation(value = "List event per id")
+	@ApiOperation(value = "Listar evento por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		try {
@@ -46,7 +46,7 @@ public class EventController {
 		}
 	}
 
-	@ApiOperation(value = "Add event")
+	@ApiOperation(value = "Adicionar evento")
 	@PostMapping
 	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid EventDTO event) {
 
@@ -57,7 +57,7 @@ public class EventController {
 		}
 	}
 
-	@ApiOperation(value = "Update event per id")
+	@ApiOperation(value = "Atualizar evento por id")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody @Valid EventDTO event) {
 		try {
@@ -67,7 +67,7 @@ public class EventController {
 		}
 	}
 	
-	@ApiOperation(value = "Activate activity per id of event")
+	@ApiOperation(value = "Ativar atividade por id do evento")
 	@PutMapping("/{idEvent}/activities")
 	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity){
 		try {
@@ -77,7 +77,7 @@ public class EventController {
 		}
 	}
 
-	@ApiOperation(value = "Deactivate activity per id")
+	@ApiOperation(value = "Desativar evento por id")
 	@PutMapping("/{id}/deactivate")
 	public ResponseEntity<?> deactivate(Principal principal, @PathVariable Long id) {
 		try {

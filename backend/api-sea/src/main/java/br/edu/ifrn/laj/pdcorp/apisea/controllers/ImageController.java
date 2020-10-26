@@ -36,7 +36,7 @@ public class ImageController {
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 	
-	@ApiOperation(value = "View image per name")
+	@ApiOperation(value = "Visualizar imagem por nome")
 	@GetMapping("/{originalName}")
 	public ResponseEntity<?> getImage(@PathVariable String originalName) throws IOException {
 		try {
@@ -50,7 +50,7 @@ public class ImageController {
 		}
 	}
 	
-	@ApiOperation(value = "Add image")
+	@ApiOperation(value = "Adicionar imagem")
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> upload(@RequestParam("image") MultipartFile image, @RequestParam("type_image") TypeImage type){
 		try {

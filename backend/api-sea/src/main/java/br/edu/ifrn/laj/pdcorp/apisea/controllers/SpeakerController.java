@@ -27,13 +27,13 @@ public class SpeakerController {
 	@Autowired
 	private SpeakerService service;
 	
-	@ApiOperation(value = "Add speaker")
+	@ApiOperation(value = "Adicionar palestrante")
 	@PostMapping
 	public ResponseEntity<Speaker> save(@RequestBody Speaker speaker){
 		return ResponseEntity.ok(this.service.save(speaker));
 	}
 	
-	@ApiOperation(value = "Update speaker")
+	@ApiOperation(value = "Atualizar palestrante")
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Speaker speaker){
 		try {
@@ -43,7 +43,7 @@ public class SpeakerController {
 		}
 	}
 	
-	@ApiOperation(value = "List all speakers")
+	@ApiOperation(value = "Listar todos os palestrantes")
 	@GetMapping
 	public ResponseEntity<List<Speaker>> listAll(){
 		return ResponseEntity.ok(service.findAll());
