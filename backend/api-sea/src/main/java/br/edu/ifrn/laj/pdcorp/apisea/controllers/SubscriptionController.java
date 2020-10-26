@@ -20,7 +20,10 @@ import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SubscriptionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Subscription Endpoint", description = "Control of subscriptions", tags="Subscription Endpoint")
 @RestController
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
@@ -29,7 +32,7 @@ public class SubscriptionController {
 	private SubscriptionService subscriptionService;
 	
 	
-
+	@ApiOperation(value = "Visualizar inscrição por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id) {
 		try {
@@ -39,6 +42,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Listar todos os usuários por id")
 	@GetMapping
 	public ResponseEntity<?> findAllByUserId(Principal principal) {
 		try {
@@ -48,6 +52,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Visualizar inscrições por id do evento")
 	@GetMapping("/events/{eventId}")
 	public ResponseEntity<?> findAllByEventId(Principal principal, @PathVariable Long eventId) {
 		try {
@@ -57,6 +62,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Adicionar inscrição")
 	@PostMapping
 	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid Subscription subscription) {
 		try {
@@ -66,6 +72,7 @@ public class SubscriptionController {
 		}
 	}
 	
+	@ApiOperation(value = "Atualizar atividade por id da inscrição e o id da atividade")
 	@PutMapping("/{subscriptionId}/activities/{activityId}")
 	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
 		try {
@@ -76,6 +83,7 @@ public class SubscriptionController {
 		
 	}
 
+	@ApiOperation(value = "Atualizar inscrição por id ")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(Principal principal, @PathVariable Long id,
 			@RequestBody @Valid Subscription subscription) {
@@ -86,6 +94,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Deletar inscrição por id ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(Principal principal, @PathVariable Long id){
 		try {

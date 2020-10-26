@@ -15,7 +15,10 @@ import br.edu.ifrn.laj.pdcorp.apisea.dtos.UserDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.services.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "User Endpoint", description = "Control of users", tags="User Endpoint")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -23,6 +26,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@ApiOperation(value = "Adicionar ou atualizar usuário")
 	@PostMapping
 	public ResponseEntity<?> saveOrEditUser(@RequestBody User user){
 		try {
@@ -32,6 +36,7 @@ public class UserController {
 		}
 	}
 	
+	@ApiOperation(value = "Visualizar usuário por email")
 	@GetMapping("/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable("email") String email){
 		try {
