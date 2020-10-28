@@ -32,6 +32,7 @@
                 name="nome"
                 id="nome"
                 placeholder="João Silva"
+                required
               />
             </div>
           </div>
@@ -46,6 +47,7 @@
                 name="escola"
                 id="escola"
                 placeholder="Ex: IFRN - Campus Lajes"
+                required
               />
             </div>
             <div class="col-6 field">
@@ -57,6 +59,7 @@
                 name="cidade"
                 id="cidade"
                 placeholder="Ex: Lajes"
+                required
               />
             </div>
           </div>
@@ -73,11 +76,12 @@
             name="email"
             id="email"
             placeholder="Ex: IFRN - Campus Lajes"
+            required
           />
         </div>
         <div class="col-6 field">
           <label for="sel1">Tipo de usuário</label>
-          <select class="form-control form-control-lg" id="sel1" v-model="user.type">
+          <select class="form-control form-control-lg" id="sel1" v-model="user.type" required>
             <option value>---</option>
             <option value="STUDENT">Aluno</option>
             <option value="PROFESSOR">Professor</option>
@@ -96,6 +100,7 @@
             name="senha"
             id="senha"
             placeholder="••••••"
+            required
           />
           <small
             id="passwordHelpBlock"
@@ -109,8 +114,9 @@
             type="password"
             class="form-control form-control-lg"
             name="senha"
-            id="senha"
+            id="senha-confirm"
             placeholder="••••••"
+            required
           />
         </div>
       </div>
@@ -141,30 +147,63 @@ export default {
         password: "",
         school: "",
         city: "",
-        type: ""
+        type: "",
+        thumbPath: ""
       },
-      checkPassword: ""
+      checkPassword: "",
+      erros: []
     };
   },
   methods: {
     async save() {
-      console.log("Chamou o método salvar");
-      // Antes de salvar validar se senhas conferem
-      if (
-        this.user.password.length >= 8 &&
-        this.user.password.length <= 15 &&
-        this.user.password === this.checkPassword
-      ) {
-        UsersService.salvar(this.user)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e.response);
-          });
-      } else {
-        console.log("Senhas não conferem");
+      if (!this.validatePassword()) {
+        return;
       }
+
+      var imageSaved = this.saveImage()
+      this.user.thumbPath = imageSaved
+
+      console.log("Chamada para salvar na api");
+      UsersService.save(this.user)
+        .then(response => {
+          console.log("Deu certo!");
+          console.log(response);
+          this.clearForm();
+        })
+        .catch(e => {
+          console.log("Deu errado!");
+          console.log(e.response);
+          this.rollbackSaveImage(imageSaved)
+        });
+    },
+
+    clearForm() {
+      console.log("Chamou o limpar");
+      this.user = { type: "" };
+      this.checkPassword = "";
+    },
+
+    validatePassword() {
+      console.log("Chamou validarSenha()");
+
+      if (this.user.password.length < 8 || this.user.password.length > 15) {
+        console.log("O tamanho da senha está inválido");
+        return false;
+      }
+      if (this.user.password !== this.checkPassword) {
+        console.log("Senhas não conferem");
+        return false;
+      }
+      return true;
+    },
+
+    saveImage() {
+      console.log("TODO: Salvar imagem na api");
+      return "";
+    },
+
+    rollbackSaveImage(path) {
+      console.log("TODO: Rotina de remoção da imagem" + path);
     }
   },
   mounted() {

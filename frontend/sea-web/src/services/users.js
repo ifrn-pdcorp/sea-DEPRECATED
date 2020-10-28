@@ -1,7 +1,7 @@
 import {http} from './config'
 
 export default {
-    salvar:(user) => {
+    save:(user) => {
         return http.post('users', user)
     },
 }
