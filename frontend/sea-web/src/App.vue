@@ -70,8 +70,10 @@ a:hover {
 .btn-cancel {
   background-color: #f1f1f1;
   border: 1px solid #95389e;
-  color: #95389e;
-  margin-top: 5%;
+ 
+}
+.btn-cancel a{
+   color: #95389e;
 }
 .btn-cancel:hover {
   margin-top: 5%;
