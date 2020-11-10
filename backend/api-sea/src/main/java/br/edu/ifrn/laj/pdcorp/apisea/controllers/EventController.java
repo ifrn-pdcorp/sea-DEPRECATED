@@ -3,9 +3,13 @@ package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.edu.ifrn.laj.pdcorp.apisea.data.UploadFileResponse;
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 import io.swagger.annotations.Api;
@@ -86,5 +95,36 @@ public class EventController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
+	
+	@ApiOperation(value = "Fazer upload de arquivos para atividade específica por id do evento e id da atividade")
+	@PostMapping("/{idEvent}/{idActivity}/uploadFile")
+	public UploadFileResponse uploadFile(@PathVariable Long idEvent, @PathVariable Long idActivity, Principal principal, @RequestParam("file") MultipartFile file) throws ApiEventException, ApiSubscriptionException {
+		String fileName = eventService.storeFile(idEvent, idActivity, principal, file);
+		String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+				.path("/downloadFile/")
+				.path(fileName)
+				.toUriString();
+		
+		return new UploadFileResponse(fileName, fileDownloadUrl, file.getContentType(), file.getSize());
+	}
+	
+	@ApiOperation(value = "Fazer download de arquivos por id do evento e id da inscrição")
+	@GetMapping("/{idEvent}/{idSubscription}/downloadFile/{fileName:.+}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable Long idEvent, @PathVariable Long idSubscription, Principal principal, @PathVariable String fileName, HttpServletRequest request) throws ApiEventException, ApiSubscriptionException{
+		Resource resource = eventService.loadFileAsResource(idEvent, idSubscription, principal, fileName);
+		String contentType = null;
+		try {
+			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		} catch (Exception e) {
+		}
+		if(contentType == null) {
+			contentType = "application/octet-stream";
+		}
+		
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+		
+	}
 }

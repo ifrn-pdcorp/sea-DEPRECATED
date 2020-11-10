@@ -33,7 +33,7 @@ public class SwaggerConfig {
 				"Sistema de gerenciamento de eventos acadêmicos", 
 				"V_0.1", 
 				"Terms Of Service URL", 
-				new Contact("nameNull", "urlNull", "emailNull"),
+				new Contact("Grupo de Desenvolvedores - SEA", "urlNull", "fernando.soares@ifrn.edu.br"),
 				"License of API", 
 				"License of URL", 
 				Collections.emptyList());
