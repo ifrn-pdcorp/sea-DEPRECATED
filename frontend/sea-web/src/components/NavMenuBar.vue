@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-light" id="nav"> 
         <router-link to="/"><img alt="Sea logo" src="../assets/logo-peq.png"> </router-link>
-         <router-link to="/newuser"> <button class=" button btn">Cadastre-se</button> </router-link>
+        
 	</nav>
   </div>
 </template>
@@ -17,7 +17,8 @@ export default {
 
 nav{
 	background-color: #43d8c9;
-	z-index: 9999;
+	z-index: 1;
+	padding: 1%;
 }
  
 nav img{

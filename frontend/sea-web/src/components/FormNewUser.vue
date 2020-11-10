@@ -123,9 +123,9 @@
 
       <div class="row">
         <div class="btn-group">
-          <router-link to="/">
-            <button class="btn button btn-cancel">Voltar</button>
-          </router-link>
+          <button class="btn button btn-cancel">
+            <router-link to="/">Voltar</router-link>
+          </button>
         </div>
         <div class="btn-group">
           <button type="submit" class="btn button">Cadastrar</button>
@@ -160,8 +160,8 @@ export default {
         return;
       }
 
-      var imageSaved = this.saveImage()
-      this.user.thumbPath = imageSaved
+      var imageSaved = this.saveImage();
+      this.user.thumbPath = imageSaved;
 
       console.log("Chamada para salvar na api");
       UsersService.save(this.user)
@@ -173,7 +173,7 @@ export default {
         .catch(e => {
           console.log("Deu errado!");
           console.log(e.response);
-          this.rollbackSaveImage(imageSaved)
+          this.rollbackSaveImage(imageSaved);
         });
     },
 
