@@ -20,6 +20,7 @@ export default {
 <style>
 body {
   background-color: #f7f7f7;
+  height: 100vh;
 }
 hr {
   border-top-color: rgba(149, 56, 158, 0.6);
@@ -36,7 +37,7 @@ a:hover {
   text-decoration: none;
 }
 .row {
-    margin: 0px;
+  margin: 0px;
 }
 .content {
   display: flex;
@@ -56,33 +57,5 @@ a:hover {
 }
 
 /* ### BUTTONS ###*/
-
-.button {
-  margin: 8px;
-  background-color: #95389e;
-  transition: background 0.6s;
-  color: #ffffff;
-}
-.button:hover {
-  color: #ffffff;
-  opacity: 0.8;
-}
-.btn-cancel {
-  background-color: #f1f1f1;
-  border: 1px solid #95389e;
- 
-}
-.btn-cancel a{
-   color: #95389e;
-}
-.btn-cancel:hover {
-  margin-top: 5%;
-  color: #95389e;
-}
-
-.btn-group {
-  width: 50%;
-}
-
-
+@import url("styles/buttons.css");
 </style>

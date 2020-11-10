@@ -1,5 +1,9 @@
 <template>
+
   <div class=" container">
+     <router-link to="/newevent">
+        <button class="button btn btn-menu"> Novo Evento</button>
+      </router-link>
     <h1 class="title">Eventos</h1>
     <hr />
     <section class="events">

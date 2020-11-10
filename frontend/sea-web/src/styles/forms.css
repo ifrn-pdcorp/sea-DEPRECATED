@@ -17,6 +17,10 @@
     margin-bottom: 3%;
   }
 
+  .container .container-form .field textarea {
+    resize: none;
+  }
+
   .img-background {
     position: absolute;
     width: 20%;
