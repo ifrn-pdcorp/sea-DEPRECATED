@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="image">
-      <img src="../assets/picevent.jpg" />
+      <img src="../../assets/picevent.jpg" />
     </div>
 
     <div class="data">

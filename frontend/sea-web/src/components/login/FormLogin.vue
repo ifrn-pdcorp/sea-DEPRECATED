@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import LoginService from "../services/login";
+import LoginService from "../../services/login";
 export default {
   name: "FormLogin",
   data() {

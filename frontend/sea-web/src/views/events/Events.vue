@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import CardEvent from "@/components/CardEvent.vue";
+import CardEvent from "@/components/events/CardEvent.vue";
 export default {
   name: "Events",
   components: {

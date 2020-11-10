@@ -14,7 +14,7 @@
 
 <script>
 // @ is an alias to /src
-import FormLogin from "@/components/FormLogin.vue";
+import FormLogin from "@/components/login/FormLogin.vue";
 
 export default {
   name: "Home",
@@ -25,7 +25,7 @@ export default {
 </script>
 <style scoped>
 .image-index {
-  background-image: url("../assets/sea.png");
+  background-image: url("../../assets/sea.png");
   background-repeat: no-repeat;
   background-size: contain;
   min-width: 45%;
