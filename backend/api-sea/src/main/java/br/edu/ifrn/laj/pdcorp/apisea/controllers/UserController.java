@@ -3,7 +3,6 @@ package br.edu.ifrn.laj.pdcorp.apisea.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import br.edu.ifrn.laj.pdcorp.apisea.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin("*")
 @Api(value = "User Endpoint", description = "Control of users", tags = "User Endpoint")
 @RestController
 @RequestMapping("/users")
