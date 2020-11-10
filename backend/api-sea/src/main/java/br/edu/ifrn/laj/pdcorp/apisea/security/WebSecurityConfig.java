@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.edu.ifrn.laj.pdcorp.apisea.filters.CORSFilter;
+
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -30,7 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.addFilterBefore(new JwtLoginFilter("/login", authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 
-				.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new CORSFilter(), JwtAuthenticationFilter.class);
 	}
 
 	@Override
