@@ -1,18 +1,38 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div>
+      <router-link to="/newuser">
+        <button class="button btn btn-menu">Cadastre-se</button>
+      </router-link>
+    </div>
+    <div class="content container">
+      <div class="image-index"></div>
+      <FormLogin></FormLogin>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import FormLogin from "@/components/FormLogin.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld
+    FormLogin
   }
-}
+};
 </script>
+<style scoped>
+.image-index {
+  background-image: url("../assets/sea.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  min-width: 45%;
+  height: 450px;
+
+  float: right;
+  margin-right: 5%;
+  margin-top: 3%;
+}
+</style>
