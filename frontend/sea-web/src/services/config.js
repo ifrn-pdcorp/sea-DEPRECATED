@@ -5,7 +5,8 @@ export const http = axios.create({
 })
 
 http.interceptors.request.use(config => {
-    var token = localStorage.getItem('userToken')
+    
+    var token = sessionStorage.getItem('userToken')
     if (token)
         config.headers.common['Authorization'] = token
     return config
