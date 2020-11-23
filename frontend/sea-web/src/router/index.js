@@ -20,7 +20,7 @@ Vue.use(VueRouter)
     component: Events
   },
   {
-    path: '/newuser',
+    path: '/join',
     name: 'NewUser',
     component: NewUser
   },
@@ -41,6 +41,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  // if(to.name !== 'login' && to.name !== 'join'){
+    // fazer validação de usuário logado
+  // }
+  console.log('chamou meu beforeEach')
+  next()
 })
 
 export default router
