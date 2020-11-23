@@ -67,7 +67,7 @@ public class TokenAuthenticationUtil {
 				}
 
 			if (!StringUtils.isEmpty(user)) {
-				return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());	
+				return new UsernamePasswordAuthenticationToken(user, token.replace(TOKEN_PREFIX, "").trim(), Collections.emptyList());	
 			}
 			return null;
 		} 
