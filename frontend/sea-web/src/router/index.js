@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import UserService from '../services/users'
 import Home from '../views/login/Home.vue'
 import Events from '../views/events/Events.vue'
 import NewUser from '../views/users/NewUser.vue'
@@ -8,7 +9,7 @@ import AboutEvent from '../views/events/AboutEvent.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -43,11 +44,22 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  // if(to.name !== 'login' && to.name !== 'join'){
-    // fazer validação de usuário logado
-  // }
-  console.log('chamou meu beforeEach')
+router.beforeEach(async (to, from, next) => {
+  var user = null
+  await UserService.loadSession().then(response => {
+    user = response.data.user
+  }).catch(() => {
+    user = null
+  })
+  if (user) {
+    if (to.name === 'Home' || to.name === 'NewUser') {
+      next({ name: 'Events' })
+    }
+  } else {
+    if (to.name !== 'Home' && to.name !== 'NewUser') {
+      next({ name: 'Home' })
+    }
+  }
   next()
 })
 
