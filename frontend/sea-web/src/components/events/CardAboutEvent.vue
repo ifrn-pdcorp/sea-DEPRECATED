@@ -2,7 +2,7 @@
   <div class="about-event">
     <div class="row">
       <div class="col-3">
-        <img src="../assets/picevent-peq.jpg" />
+        <img src="../../assets/picevent-peq.jpg" />
       </div>
       <div class="col-9">
         <h1>II Semadec</h1>

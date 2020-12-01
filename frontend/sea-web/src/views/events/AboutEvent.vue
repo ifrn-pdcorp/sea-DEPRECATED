@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import CardAboutEvent from "@/components/CardAboutEvent.vue";
-import SiteBar from "@/components/SiteBar.vue";
-import Modality from "@/components/Modality.vue";
+import CardAboutEvent from "@/components/events/CardAboutEvent.vue";
+import SiteBar from "@/components/events/SiteBar.vue";
+import Modality from "@/components/events/Modality.vue";
 
 export default {
   name: "AboutEvent",

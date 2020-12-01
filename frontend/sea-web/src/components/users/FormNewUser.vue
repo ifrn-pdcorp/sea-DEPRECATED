@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-3">
           <figure class="image">
-            <img src="../assets/picprofile.jpg" alt="Avatar" id="picprofile" class="imagefile" />
+            <img src="../../assets/picprofile.jpg" alt="Avatar" id="picprofile" class="imagefile" />
 
             <div class="overlay">
               <label class="text" for="editpiprofile">Escolher foto</label>
@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import UsersService from "../services/users";
+import UsersService from "../../services/users";
 export default {
   name: "FormNewUser",
   data() {
@@ -213,7 +213,7 @@ export default {
 </script>
 
 <style scoped>
-@import url("../styles/forms.css");
+@import url("../../styles/forms.css");
 
 /* ### PIC PROFILE ###*/
 .container-form .image {

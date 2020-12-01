@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-light" id="nav"> 
-        <router-link to="/"><img alt="Sea logo" src="../assets/logo-peq.png"> </router-link>
+        <router-link to="/"><img alt="Sea logo" src="../../assets/logo-peq.png"> </router-link>
         
 	</nav>
   </div>

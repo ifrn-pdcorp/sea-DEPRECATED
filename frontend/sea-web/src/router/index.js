@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Events from '../views/Events.vue'
-import NewUser from '../views/NewUser.vue'
-import NewEvent from '../views/NewEvent.vue'
-import AboutEvent from '../views/AboutEvent.vue'
+import Home from '../views/login/Home.vue'
+import Events from '../views/events/Events.vue'
+import NewUser from '../views/users/NewUser.vue'
+import NewEvent from '../views/events/NewEvent.vue'
+import AboutEvent from '../views/events/AboutEvent.vue'
 
 Vue.use(VueRouter)
 
