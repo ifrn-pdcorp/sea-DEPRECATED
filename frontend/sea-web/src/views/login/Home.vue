@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <router-link to="/newuser">
+      <router-link to="/join">
         <button class="button btn btn-menu">Cadastre-se</button>
       </router-link>
     </div>
