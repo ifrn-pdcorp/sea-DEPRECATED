@@ -4,7 +4,9 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +34,7 @@ public class SubscriptionController {
 	private SubscriptionService subscriptionService;
 	
 	
-	@ApiOperation(value = "Visualizar inscrição por id")
+	@ApiOperation(value = "Visualizar inscricao por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id) {
 		try {
@@ -42,7 +44,7 @@ public class SubscriptionController {
 		}
 	}
 
-	@ApiOperation(value = "Listar todos os usuários por id")
+	@ApiOperation(value = "Listar todos os usuï¿½rios por id")
 	@GetMapping
 	public ResponseEntity<?> findAllByUserId(Principal principal) {
 		try {
@@ -52,7 +54,7 @@ public class SubscriptionController {
 		}
 	}
 
-	@ApiOperation(value = "Visualizar inscrições por id do evento")
+	@ApiOperation(value = "Visualizar inscriï¿½ï¿½es por id do evento")
 	@GetMapping("/events/{eventId}")
 	public ResponseEntity<?> findAllByEventId(Principal principal, @PathVariable Long eventId) {
 		try {
@@ -62,17 +64,20 @@ public class SubscriptionController {
 		}
 	}
 
-	@ApiOperation(value = "Adicionar inscrição")
+	@ApiOperation(value = "Adicionar inscriï¿½ï¿½o")
 	@PostMapping
-	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid Subscription subscription) {
+	public ResponseEntity<?> save(Principal principal, @RequestBody Subscription subscription) {
 		try {
-			return ResponseEntity.ok(subscriptionService.add(principal, subscription));
-		} catch (ApiSubscriptionException e) {
+			return ResponseEntity.ok(subscriptionService.save(principal, subscription));
+		} catch (ApiSubscriptionException | ApiException e) {
+			if(e instanceof ApiSubscriptionException) {
+				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+			}
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@ApiOperation(value = "Atualizar atividade por id da inscrição e o id da atividade")
+	@ApiOperation(value = "Atualizar atividade por id da inscriï¿½ï¿½o e o id da atividade")
 	@PutMapping("/{subscriptionId}/activities/{activityId}")
 	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
 		try {
@@ -83,7 +88,7 @@ public class SubscriptionController {
 		
 	}
 
-	@ApiOperation(value = "Atualizar inscrição por id ")
+	@ApiOperation(value = "Atualizar inscriï¿½ï¿½o por id ")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(Principal principal, @PathVariable Long id,
 			@RequestBody @Valid Subscription subscription) {
@@ -94,7 +99,7 @@ public class SubscriptionController {
 		}
 	}
 
-	@ApiOperation(value = "Deletar inscrição por id ")
+	@ApiOperation(value = "Deletar inscriï¿½ï¿½o por id ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(Principal principal, @PathVariable Long id){
 		try {

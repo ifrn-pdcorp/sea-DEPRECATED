@@ -10,6 +10,10 @@ public class ApiException extends Exception {
 		super(message.getDescription());
 	}
 
+	public ApiException(String message){
+		super(message);
+	}
+
 	public ExceptionMessages getMessageException() {
 		return messageException;
 	}
