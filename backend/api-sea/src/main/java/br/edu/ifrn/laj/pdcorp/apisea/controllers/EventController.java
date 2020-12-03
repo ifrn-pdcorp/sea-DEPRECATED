@@ -21,7 +21,10 @@ import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Event Endpoint", description = "Control of events", tags="Event Endpoint")
 @RestController
 @RequestMapping("/events")
 public class EventController {
@@ -29,11 +32,13 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
+	@ApiOperation(value = "Listar todos os eventos")
 	@GetMapping
 	public List<EventDTO> findAll() {
 		return eventService.findAllIsActive();
 	}
 
+	@ApiOperation(value = "Listar evento por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		try {
@@ -43,6 +48,7 @@ public class EventController {
 		}
 	}
 
+	@ApiOperation(value = "Adicionar evento")
 	@PostMapping
 	public ResponseEntity<?> save(Principal principal, @RequestBody EventDTO event) {
 
@@ -53,6 +59,7 @@ public class EventController {
 		}
 	}
 
+	@ApiOperation(value = "Atualizar evento por id")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody EventDTO event) {
 		try {
@@ -62,6 +69,7 @@ public class EventController {
 		}
 	}
 	
+	@ApiOperation(value = "Ativar atividade por id do evento")
 	@PutMapping("/{idEvent}/activities")
 	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity){
 		try {
@@ -71,6 +79,7 @@ public class EventController {
 		}
 	}
 
+	@ApiOperation(value = "Desativar evento por id")
 	@PutMapping("/{id}/deactivate")
 	public ResponseEntity<?> deactivate(Principal principal, @PathVariable Long id) {
 		try {

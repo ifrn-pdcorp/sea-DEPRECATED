@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Speaker;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SpeakerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Speaker Endpoint", description = "Control of speakers", tags="Speaker Endpoint")
 @RestController
 @RequestMapping("/speakers")
 public class SpeakerController {
@@ -26,6 +29,7 @@ public class SpeakerController {
 	@Autowired
 	private SpeakerService service;
 	
+	@ApiOperation(value = "Adicionar palestrante")
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody Speaker speaker){
 		try {
@@ -35,6 +39,7 @@ public class SpeakerController {
 		}
 	}
 	
+	@ApiOperation(value = "Atualizar palestrante")
 	@PutMapping
 	public ResponseEntity<?> update(@RequestBody Speaker speaker){
 		try {
@@ -44,6 +49,7 @@ public class SpeakerController {
 		}
 	}
 	
+	@ApiOperation(value = "Listar todos os palestrantes")
 	@GetMapping
 	public ResponseEntity<List<Speaker>> listAll(){
 		return ResponseEntity.ok(service.findAll());

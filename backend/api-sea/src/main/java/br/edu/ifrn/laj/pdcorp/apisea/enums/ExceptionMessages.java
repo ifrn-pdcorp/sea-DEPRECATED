@@ -10,7 +10,7 @@ public enum ExceptionMessages {
 	EVENT_DOESNT_EXISTS_DB("Evento não encontrado."),
 	USER_REQUEST_FORBBIDEN("A requisição não permitida para este usuário."),
 	SUBSCRIPTION_DOESNT_EXISTS_DB("Inscrição não encontrada."), 
-	ACTIVITY_IS_NOT_VALID("Atividade não é válida para esta operação."),
+	ACTIVITY_IS_NOT_VALID("Atividade não é válida par	a esta operação."),
 	ACTIVITY_DOESNT_EXIST_IN_EVENT("Atividade não está registrada no evento associado."),
 	SUBSCRIPTION_ALREADY_EXISTS("Inscrição já existe."), 
 	INVALID_DATETIME_FOR_SUBSCRIPTION("A data atual não está dentro do período de inscrição"),

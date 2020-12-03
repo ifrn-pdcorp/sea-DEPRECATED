@@ -22,14 +22,19 @@ import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SubscriptionService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(value = "Subscription Endpoint", description = "Control of subscriptions", tags="Subscription Endpoint")
 @RestController
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
-
+	
+	
+	@ApiOperation(value = "Visualizar inscricao por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id) {
 		try {
@@ -39,6 +44,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Listar todos os usu�rios por id")
 	@GetMapping
 	public ResponseEntity<?> findAllByUserId(Principal principal) {
 		try {
@@ -48,6 +54,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Visualizar inscri��es por id do evento")
 	@GetMapping("/events/{eventId}")
 	public ResponseEntity<?> findAllByEventId(Principal principal, @PathVariable Long eventId) {
 		try {
@@ -57,6 +64,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Adicionar inscri��o")
 	@PostMapping
 	public ResponseEntity<?> save(Principal principal, @RequestBody Subscription subscription) {
 		try {
@@ -69,6 +77,7 @@ public class SubscriptionController {
 		}
 	}
 	
+	@ApiOperation(value = "Atualizar atividade por id da inscri��o e o id da atividade")
 	@PutMapping("/{subscriptionId}/activities/{activityId}")
 	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
 		try {
@@ -79,6 +88,7 @@ public class SubscriptionController {
 		
 	}
 
+	@ApiOperation(value = "Atualizar inscri��o por id ")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(Principal principal, @PathVariable Long id,
 			@RequestBody @Valid Subscription subscription) {
@@ -89,6 +99,7 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Deletar inscri��o por id ")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(Principal principal, @PathVariable Long id){
 		try {
