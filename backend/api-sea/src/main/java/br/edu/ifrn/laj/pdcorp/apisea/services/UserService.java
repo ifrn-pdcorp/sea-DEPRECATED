@@ -1,6 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -12,22 +13,25 @@ import br.edu.ifrn.laj.pdcorp.apisea.repositories.UserRepository;
 import br.edu.ifrn.laj.pdcorp.apisea.validators.AbstractValidationMediator;
 import br.edu.ifrn.laj.pdcorp.apisea.validators.user.UserValidationMediator;
 
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
+
 @Service
 public class UserService {
 	
 	@Autowired
 	private UserRepository repository;
-	
-//	@Autowired
-//	private AbstractValidationMediator<User> validator;
+
+	@Autowired
+	private UserValidationMediator validator;
 	
 	public UserDTO save(User user) throws ApiException {
-		
-//		if(validator.isInvalid(user)) {
-//			throw validator.getBusinessInvalidation().getCause();
-//		}
-		
-		return UserDTO.convertFromModel(repository.save(user)); 
+		try {
+			return UserDTO.convertFromModel(repository.save(user));
+		} catch (DataIntegrityViolationException ex){
+			throw new ApiException(ExceptionMessages.DATA_VALIDATION.getDescription().concat(
+					ex.getMostSpecificCause().getMessage()));
+		}
 	}
 	
 	public UserDTO findByUsername(String email) throws ApiException {

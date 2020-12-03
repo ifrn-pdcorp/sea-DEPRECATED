@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Events from '../views/Events.vue'
-import NewUser from '../views/NewUser.vue'
-import NewEvent from '../views/NewEvent.vue'
-import AboutEvent from '../views/AboutEvent.vue'
+import UserService from '../services/users'
+import Home from '../views/login/Home.vue'
+import Events from '../views/events/Events.vue'
+import NewUser from '../views/users/NewUser.vue'
+import NewEvent from '../views/events/NewEvent.vue'
+import AboutEvent from '../views/events/AboutEvent.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -20,7 +21,7 @@ Vue.use(VueRouter)
     component: Events
   },
   {
-    path: '/newuser',
+    path: '/join',
     name: 'NewUser',
     component: NewUser
   },
@@ -41,6 +42,25 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  var user = null
+  await UserService.loadSession().then(response => {
+    user = response.data.user
+  }).catch(() => {
+    user = null
+  })
+  if (user) {
+    if (to.name === 'Home' || to.name === 'NewUser') {
+      next({ name: 'Events' })
+    }
+  } else {
+    if (to.name !== 'Home' && to.name !== 'NewUser') {
+      next({ name: 'Home' })
+    }
+  }
+  next()
 })
 
 export default router

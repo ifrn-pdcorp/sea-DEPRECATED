@@ -73,6 +73,6 @@ export default {
 </script>
 
 <style>
-@import url("../styles/forms.css");
-@import url("../styles/buttons.css");
+@import url("../../styles/forms.css");
+@import url("../../styles/buttons.css");
 </style>

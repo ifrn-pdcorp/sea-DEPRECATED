@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavMenuBar from "@/components/NavMenuBar.vue";
+import NavMenuBar from "@/components/menus/NavMenuBar.vue";
 
 export default {
   name: "Events",

@@ -31,27 +31,26 @@
 </template>
 
 <script>
-import LoginService from "../services/login";
+import LoginService from "../../services/login";
 export default {
   name: "FormLogin",
   data() {
     return {
       credentials: {
         user: "",
-        password: ""
-      }
+        password: "",
+      },
     };
   },
   methods: {
-    login() {
-      console.log("Chamou o login");
-      console.log(this.credentials);
-      LoginService.login(this.credentials)
-        .then(response => {
-          console.log("Deu certo!");
-          console.log(response);
+    async login() {
+      await LoginService.login(this.credentials)
+        .then(async (response) => {
+          var userToken = response.data;
+          sessionStorage.setItem("userToken", userToken);
+          this.$router.push("/events");
         })
-        .catch(e => {
+        .catch((e) => {
           console.log("Deu errado!");
           console.log(e);
         });
@@ -59,8 +58,8 @@ export default {
     },
     clearForm() {
       this.credentials = {};
-    }
-  }
+    },
+  },
 };
 </script>
 
