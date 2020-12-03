@@ -79,8 +79,7 @@ public class SubscriptionController {
 			return ResponseEntity.ok(this.subscriptionService.registerNewActivity(principal, activityId, subscriptionId));
 		} catch (ApiSubscriptionException | ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
-		} 
-		
+		}s
 	}
 
 	@ApiOperation(value = "Atualizar inscrição por id ")
