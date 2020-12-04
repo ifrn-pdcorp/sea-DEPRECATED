@@ -1,19 +1,19 @@
 <template>
   <div class="card">
     <div class="image">
-      <img src="../../assets/picevent.jpg" />
+      <img v-bind:src="event.thumbPath" />
     </div>
 
     <div class="data">
-      <h1>II Semadec</h1>
-      <h2>Diversidade, inclusão e sustentabilidade em tempos de crise</h2>
+      <h1>{{ event.name }}</h1>
+      <h2>{{ event.summary }}</h2>
 
       <div class="details">
+        <p><i class="fas fa-map-marker-alt"></i> Pau dos Ferros</p>
         <p>
-          <i class="fas fa-map-marker-alt"></i> Pau dos Ferros
-        </p>
-        <p>
-          <i class="fas fa-calendar-alt"></i> De 19/11 á 23/11
+          <i class="fas fa-calendar-alt"></i> De
+          {{ formattDate(event.subscriptionStart) }} à
+          {{ formattDate(event.subscriptionEnd) }}
         </p>
       </div>
     </div>
@@ -26,7 +26,18 @@
 
 <script>
 export default {
-    name: 'CardEvent'
+  props: ["event"],
+  name: "CardEvent",
+  methods: {
+    formattDate(date) {
+      var d = new Date(date);
+      return d.toLocaleDateString();
+    },
+  },
+  mounted() {
+    // console.log(this.event.subscriptionEnd)
+    // this.formattDate(this.event.subscriptionEnd)
+  },
 };
 </script>
 
@@ -43,14 +54,12 @@ export default {
 
   /*box-shadow: 1px 1px 20px rgba(149, 56, 158, .7);*/
 }
-.card:hover{
-	border: 1px solid rgb(149, 56, 158);
-	box-shadow: 0px 0px 6px #d1d1d1;
-
+.card:hover {
+  border: 1px solid rgb(149, 56, 158);
+  box-shadow: 0px 0px 6px #d1d1d1;
 }
 .card h1 {
   font-size: 28px;
- 
 }
 .card h2 {
   font-size: 17px;
