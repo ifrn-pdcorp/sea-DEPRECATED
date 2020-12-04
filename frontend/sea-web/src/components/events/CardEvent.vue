@@ -18,9 +18,7 @@
       </div>
     </div>
 
-    <button class="btn button">
-      <a href="programacao-evento.html">Saiba mais</a>
-    </button>
+    <router-link to="aboutevent" class="btn button"> Saiba mais </router-link>
   </div>
 </template>
 
