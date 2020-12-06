@@ -1,5 +1,7 @@
 package br.edu.ifrn.laj.pdcorp.apisea.validators;
 
+import org.springframework.stereotype.Component;
+
 
 public abstract class AbstractValidationMediator<E> {
 

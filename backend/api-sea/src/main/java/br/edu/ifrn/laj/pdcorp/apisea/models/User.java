@@ -30,6 +30,7 @@ public class User {
 	private String password;
 	private String school;
 	private String city;
+	@Column(name = "type", nullable = false)
 	private UserType type;
 	private boolean emailVerified;
 	

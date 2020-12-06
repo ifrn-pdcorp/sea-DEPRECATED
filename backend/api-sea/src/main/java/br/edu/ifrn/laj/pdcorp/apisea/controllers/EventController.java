@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,21 +50,21 @@ public class EventController {
 
 	@ApiOperation(value = "Adicionar evento")
 	@PostMapping
-	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid EventDTO event) {
+	public ResponseEntity<?> save(Principal principal, @RequestBody EventDTO event) {
 
 		try {
-			return ResponseEntity.ok(eventService.add(principal, event.convertToModel()));
-		} catch (ApiEventException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.ok(eventService.save(principal, event.convertToModel()));
+		} catch (ApiEventException | ApiException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 		}
 	}
 
 	@ApiOperation(value = "Atualizar evento por id")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody @Valid EventDTO event) {
+	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody EventDTO event) {
 		try {
 			return ResponseEntity.ok(eventService.update(principal, id, event.convertToModel()));
-		} catch (ApiEventException e) {
+		} catch (ApiEventException | ApiException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}

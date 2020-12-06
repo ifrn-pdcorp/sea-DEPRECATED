@@ -4,8 +4,10 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
@@ -25,11 +27,16 @@ public class EventService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public EventDTO add(Principal principal, Event event) throws ApiEventException {
+	public EventDTO save(Principal principal, Event event) throws ApiException, ApiEventException {
 		User user = this.findUserAuthenticated(principal);
 		event.setActive(true);
 		event.setOwner(user);
-		return EventDTO.convertFromModel(eventRepository.save(event));
+		try {
+			return EventDTO.convertFromModel(eventRepository.save(event));
+		} catch (DataIntegrityViolationException ex){
+			throw new ApiException(ExceptionMessages.DATA_VALIDATION.getDescription().concat(
+					ex.getMostSpecificCause().getMessage()));
+		}
 	}
 	
 	public EventDTO update(Event event) {
@@ -67,7 +74,7 @@ public class EventService {
 	    return this.update(event);
 	}
 
-	public EventDTO update(Principal principal, Long id, Event event) throws ApiEventException {
+	public EventDTO update(Principal principal, Long id, Event event) throws ApiEventException, ApiException {
 		Optional<Event> optional = eventRepository.findById(id);
 		if (optional.isEmpty())
 			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
@@ -79,11 +86,16 @@ public class EventService {
 			throw new ApiEventException(ExceptionMessages.USER_REQUEST_FORBBIDEN);
 
 		BeanUtils.copyProperties(event, existent, "id", "active", "owner");
-		return EventDTO.convertFromModel(eventRepository.save(existent));
+		try {
+			return EventDTO.convertFromModel(eventRepository.save(existent));
+		} catch (DataIntegrityViolationException ex){
+			throw new ApiException(ExceptionMessages.DATA_VALIDATION.getDescription().concat(
+					ex.getMostSpecificCause().getMessage()));
+		}
 	}
 
-	public EventDTO deactivate(Principal principal, Long id) throws ApiEventException {
-		Optional<Event> optional = eventRepository.findById(id);
+	public EventDTO deactivate(Principal principal, Long eventId) throws ApiEventException {
+		Optional<Event> optional = eventRepository.findById(eventId);
 		if (optional.isEmpty())
 			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
 		
