@@ -1,13 +1,63 @@
 <template>
   <div class="container-form">
-    <form @submit.prevent="save">
+    
+    <form @submit.prevent="save" :class="{ 'invalid-form': empty && formState === 'submit clicked' }">
       <h1>Cadastre-se</h1>
       <hr />
+
+      <section v-if="formState === 'submit clicked'">
+        <notification-card
+          :id="1"
+          msg="Preencha o campo Nome"
+          v-if="!$v.user.name.required"
+        ></notification-card>
+        <notification-card
+          :id="2"
+          v-if="!$v.user.email.required"
+          msg="Preencha o campo Email"
+          
+        ></notification-card>
+        <notification-card
+          :id="3"
+          msg="Email invalido"
+          v-if="!$v.user.email.email"
+        ></notification-card>
+        <notification-card
+          :id="4"
+          msg="Preencha o campo Tipo de Usuario"
+          v-if="!$v.user.type.required"
+        ></notification-card>
+        <notification-card
+          :id="5"
+          msg="Preencha o campo Senha"
+          v-if="!$v.user.password.required"
+        ></notification-card>
+        <notification-card
+          :id="6"
+          msg="Confirme sua senha"
+          v-if="!$v.checkPassword.required"
+        ></notification-card>
+        <notification-card
+          :id="7"
+          msg="Sua senha deve conter de 8 à 15 caracteres"
+          v-if="!$v.user.password.minLength || !$v.user.password.minLength"
+        ></notification-card>
+        <notification-card
+          :id="8"
+          msg="As senhas não correspondem"
+          v-if="$v.checkPassword.$model != $v.user.password.$model "
+        ></notification-card>
+      </section>
 
       <div class="row">
         <div class="col-3">
           <figure class="image">
-            <img src="../../assets/picprofile.jpg" alt="Avatar" id="picprofile" class="imagefile" />
+            <img
+              src="../../assets/picprofile.jpg"
+              alt="Avatar"
+              id="picprofile"
+              class="imagefile"
+            />
 
             <div class="overlay">
               <label class="text" for="editpiprofile">Escolher foto</label>
@@ -23,16 +73,22 @@
 
         <div class="col-9">
           <div class="row field">
-            <div class="col-12 field" style="margin: 0px;">
-              <label for="nome">Nome</label>
+            <div
+              class="col-12 field"
+              style="margin: 0px"
+              :class="{
+                'invalid-field':
+                  !$v.user.name.required && formState === 'submit clicked',
+              }"
+            >
+              <label for="nome">Nome </label>
               <input
-                v-model="user.name"
+                v-model.lazy="$v.user.name.$model"
                 type="text"
                 class="form-control form-control-lg"
                 name="nome"
                 id="nome"
                 placeholder="João Silva"
-                required
               />
             </div>
           </div>
@@ -47,7 +103,6 @@
                 name="escola"
                 id="escola"
                 placeholder="Ex: IFRN - Campus Lajes"
-                required
               />
             </div>
             <div class="col-6 field">
@@ -59,7 +114,6 @@
                 name="cidade"
                 id="cidade"
                 placeholder="Ex: Lajes"
-                required
               />
             </div>
           </div>
@@ -67,21 +121,37 @@
       </div>
 
       <div class="row">
-        <div class="col-6 field">
+        <div
+          class="col-6 field"
+          :class="{
+            'invalid-field':
+              formState === 'submit clicked' &&
+              (!$v.user.email.required || !$v.user.email.email),
+          }"
+        >
           <label for="email">Email</label>
           <input
-            v-model="user.email"
+            v-model.lazy="$v.user.email.$model"
             type="text"
             class="form-control form-control-lg"
             name="email"
             id="email"
-            placeholder="Ex: IFRN - Campus Lajes"
-            required
+            placeholder="exemplo@email.com"
           />
         </div>
-        <div class="col-6 field">
+        <div
+          class="col-6 field"
+          :class="{
+            'invalid-field':
+              formState === 'submit clicked' && !$v.user.type.required,
+          }"
+        >
           <label for="sel1">Tipo de usuário</label>
-          <select class="form-control form-control-lg" id="sel1" v-model="user.type" required>
+          <select
+            class="form-control form-control-lg"
+            id="sel1"
+            v-model.lazy="$v.user.type.$model"
+          >
             <option value>---</option>
             <option value="STUDENT">Aluno</option>
             <option value="PROFESSOR">Professor</option>
@@ -91,32 +161,42 @@
       </div>
 
       <div class="row">
-        <div class="col-6 field">
+        <div
+          class="col-6 field"
+          :class="{
+            'invalid-field':
+              formState === 'submit clicked' && 
+              (!$v.user.password.required || !$v.user.password.minLength || !$v.user.password.maxLength)}"
+        >
           <label for="senha">Senha</label>
           <input
-            v-model="user.password"
+            v-model.lazy="$v.user.password.$model"
             type="password"
             class="form-control form-control-lg"
             name="senha"
             id="senha"
             placeholder="••••••"
-            required
           />
-          <small
-            id="passwordHelpBlock"
-            class="form-text text-muted"
-          >*Sua senha deve conter de 8-15 caracteres</small>
+          <small id="passwordHelpBlock" class="form-text text-muted"
+            >*Sua senha deve conter de 8-15 caracteres</small
+          >
         </div>
-        <div class="col-6 field">
+        <div
+          class="col-6 field"
+          :class="{
+            'invalid-field':
+              formState === 'submit clicked' &&
+              (!$v.checkPassword.required || $v.checkPassword.confirmPassword),
+          }"
+        >
           <label for="senha">Confirme a senha</label>
           <input
-            v-model="checkPassword"
+            v-model.lazy="$v.checkPassword.$model"
             type="password"
             class="form-control form-control-lg"
             name="senha"
             id="senha-confirm"
             placeholder="••••••"
-            required
           />
         </div>
       </div>
@@ -128,7 +208,12 @@
           </button>
         </div>
         <div class="btn-group">
-          <button type="submit" class="btn button">Cadastrar</button>
+          <button
+            type="submit"
+            class="btn button"
+          >
+            Cadastrar
+          </button>
         </div>
       </div>
     </form>
@@ -136,11 +221,28 @@
 </template>
 
 <script>
-import UsersService from "../../services/users";
+//import UsersService from "../services/users";
+import {
+  required,
+  email,
+  minLength,
+  maxLength,
+  sameAs
+} from "vuelidate/lib/validators";
+
+import NotificationCard from ".././notifications/Card";
+
 export default {
   name: "FormNewUser",
+  components: {
+    NotificationCard,
+  },
   data() {
     return {
+      formState: "submit not clicked",
+      empty: true,
+      
+
       user: {
         name: "",
         email: "",
@@ -148,23 +250,50 @@ export default {
         school: "",
         city: "",
         type: "",
-        thumbPath: ""
+        thumbPath: "",
       },
       checkPassword: "",
-      erros: []
     };
+  },
+  validations: {
+    user: {
+      name: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
+      type: {
+        required,
+      },
+      password: {
+        required,
+        minLength: minLength("8"),
+        maxLength: maxLength("15"),
+      },
+    },
+    checkPassword: {
+      required,
+      confirmPassword: sameAs ("user.password.$model")
+    },
   },
   methods: {
     async save() {
-      if (!this.validatePassword()) {
-        return;
-      }
+      this.empty = !this.$v.user.$anyDirty;
+      this.formState = "submit clicked";
 
-      var imageSaved = this.saveImage();
-      this.user.thumbPath = imageSaved;
+      if (!this.$v.user.$invalid && this.empty === false) {
 
-      console.log("Chamada para salvar na api");
-      UsersService.save(this.user)
+        var imageSaved = this.saveImage();
+        this.user.thumbPath = imageSaved;
+
+        
+        console.log("Chamada para salvar na api");
+        this.formState = "form submit";
+
+        this.clearForm();
+     /* UsersService.save(this.user)
         .then(response => {
           console.log("Deu certo!");
           console.log(response);
@@ -174,27 +303,16 @@ export default {
           console.log("Deu errado!");
           console.log(e.response);
           this.rollbackSaveImage(imageSaved);
-        });
+        });*/
+      }
     },
+
 
     clearForm() {
       console.log("Chamou o limpar");
       this.user = { type: "" };
       this.checkPassword = "";
-    },
-
-    validatePassword() {
-      console.log("Chamou validarSenha()");
-
-      if (this.user.password.length < 8 || this.user.password.length > 15) {
-        console.log("O tamanho da senha está inválido");
-        return false;
-      }
-      if (this.user.password !== this.checkPassword) {
-        console.log("Senhas não conferem");
-        return false;
-      }
-      return true;
+      this.$v.$reset()
     },
 
     saveImage() {
@@ -204,16 +322,13 @@ export default {
 
     rollbackSaveImage(path) {
       console.log("TODO: Rotina de remoção da imagem" + path);
-    }
+    },
   },
-  mounted() {
-    //this.save();
-  }
 };
 </script>
 
 <style scoped>
-@import url("../../styles/forms.css");
+@import url("../../styles/notifications/invalidField.css");
 
 /* ### PIC PROFILE ###*/
 .container-form .image {
