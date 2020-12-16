@@ -100,19 +100,20 @@ public class EventController {
 	}
 
 	@ApiOperation(value = "Fazer upload de arquivos para atividade específica por id do evento e id da atividade")
-	@PostMapping("/{idEvent}/{idActivity}/uploadFile")
+	@PostMapping("/event/{idEvent}/activity/{idActivity}/uploadFile")
 	public UploadFileDTO uploadFile(@PathVariable Long idEvent, @PathVariable Long idActivity, Principal principal,
 			@RequestParam("file") MultipartFile file) throws ApiEventException, ApiSubscriptionException {
 		String fileName = actvityService.storeFile(idEvent, idActivity, principal, file);
 		String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("events" + "/" + idEvent + "/" + idActivity + "/downloadFile/").path(fileName).toUriString();
+				.path("events" + "/" + "event" + "/" + idEvent + "/" + "activity" + "/" + idActivity + "/downloadFile/")
+				.path(fileName).toUriString();
 
 		actvityService.saveFileDb(fileName.toString(), file.getContentType(), file.getSize(), idActivity);
 		return new UploadFileDTO(fileName.toString(), fileDownloadUrl, file.getContentType(), file.getSize());
 	}
 
 	@ApiOperation(value = "Fazer download de arquivos por id do evento e id da inscrição")
-	@GetMapping("/{idEvent}/{idActivity}/downloadFile/{fileName:.+}")
+	@GetMapping("/event/{idEvent}/activity/{idActivity}/downloadFile/{fileName:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable Long idEvent, @PathVariable Long idActivity,
 			Principal principal, @PathVariable String fileName, HttpServletRequest request)
 			throws ApiEventException, ApiSubscriptionException {
