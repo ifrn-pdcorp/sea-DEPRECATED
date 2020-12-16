@@ -17,21 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
-import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Subscription;
 import br.edu.ifrn.laj.pdcorp.apisea.services.SubscriptionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Subscription Endpoint", description = "Control of subscriptions", tags="Subscription Endpoint")
+@Api(value = "Subscription Endpoint", description = "Control of subscriptions", tags = "Subscription Endpoint")
 @RestController
 @RequestMapping("/subscriptions")
 public class SubscriptionController {
 
 	@Autowired
 	private SubscriptionService subscriptionService;
-	
-	
+
 	@ApiOperation(value = "Visualizar inscrição por id")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findId(Principal principal, @PathVariable Long id) {
@@ -71,16 +69,18 @@ public class SubscriptionController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@ApiOperation(value = "Atualizar atividade por id da inscrição e o id da atividade")
 	@PutMapping("/{subscriptionId}/activities/{activityId}")
-	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId, @RequestBody Long activityId){
+	public ResponseEntity<?> addNewActivity(Principal principal, @PathVariable Long subscriptionId,
+			@RequestBody Long activityId) {
 		try {
-			return ResponseEntity.ok(this.subscriptionService.registerNewActivity(principal, activityId, subscriptionId));
+			return ResponseEntity
+					.ok(this.subscriptionService.registerNewActivity(principal, activityId, subscriptionId));
 		} catch (ApiSubscriptionException | ApiEventException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
-		} 
-		
+		}
+
 	}
 
 	@ApiOperation(value = "Atualizar inscrição por id ")
@@ -96,7 +96,7 @@ public class SubscriptionController {
 
 	@ApiOperation(value = "Deletar inscrição por id ")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(Principal principal, @PathVariable Long id){
+	public ResponseEntity<?> delete(Principal principal, @PathVariable Long id) {
 		try {
 			subscriptionService.delete(principal, id);
 			return ResponseEntity.accepted().build();

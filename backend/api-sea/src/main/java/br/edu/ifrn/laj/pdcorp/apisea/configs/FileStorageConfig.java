@@ -2,9 +2,9 @@ package br.edu.ifrn.laj.pdcorp.apisea.configs;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix="file")
+@ConfigurationProperties(prefix = "file")
 public class FileStorageConfig {
-	
+
 	private String uploadDir;
 
 	public String getUploadDir() {
@@ -14,5 +14,5 @@ public class FileStorageConfig {
 	public void setUploadDir(String uploadDir) {
 		this.uploadDir = uploadDir;
 	}
-	
+
 }

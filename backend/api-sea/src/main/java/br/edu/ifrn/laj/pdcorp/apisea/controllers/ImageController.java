@@ -24,39 +24,37 @@ import br.edu.ifrn.laj.pdcorp.apisea.services.UploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Image Endpoint", description = "Control of images", tags="Image Endpoint")
+@Api(value = "Image Endpoint", description = "Control of images", tags = "Image Endpoint")
 @RestController
 @RequestMapping("/upload")
 public class ImageController {
-	
+
 	@Autowired
 	private UploadService uploadService;
 	@Autowired
 	private UploadConfig config;
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
-	
+
 	@ApiOperation(value = "Visualizar imagem por nome")
 	@GetMapping("/{originalName}")
 	public ResponseEntity<?> getImage(@PathVariable String originalName) throws IOException {
 		try {
-			byte[] thumbnail = this.uploadService
-					.downloadThumbnail(originalName);
-			return ResponseEntity.ok()
-					.contentType(MediaType.IMAGE_JPEG)
-					.body(thumbnail);
-		} catch (NoSuchFileException ex){
-			return ResponseEntity.badRequest().body("A imagem ".concat(ex.getLocalizedMessage()).concat(" não foi encontrada."));
+			byte[] thumbnail = this.uploadService.downloadThumbnail(originalName);
+			return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(thumbnail);
+		} catch (NoSuchFileException ex) {
+			return ResponseEntity.badRequest()
+					.body("A imagem ".concat(ex.getLocalizedMessage()).concat(" não foi encontrada."));
 		}
 	}
-	
+
 	@ApiOperation(value = "Adicionar imagem")
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<String> upload(@RequestParam("image") MultipartFile image, @RequestParam("type_image") TypeImage type){
+	public ResponseEntity<String> upload(@RequestParam("image") MultipartFile image,
+			@RequestParam("type_image") TypeImage type) {
 		try {
 			String imageName = this.uploadService.uploadThumbnail(image, type);
-			String virtualAccess = config.getRootVirtualAddress()
-					.concat(imageName);
+			String virtualAccess = config.getRootVirtualAddress().concat(imageName);
 			return new ResponseEntity<String>(virtualAccess, HttpStatus.OK);
 		} catch (IOException e) {
 			logger.error(e.getMessage());

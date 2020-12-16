@@ -1,6 +1,5 @@
 package br.edu.ifrn.laj.pdcorp.apisea.models;
 
-import java.util.Calendar;
 import java.util.List;
 import java.time.LocalDateTime;
 
@@ -30,8 +29,8 @@ public class Event {
 	private String summary;
 
 	private String thumbPath;
-	
-	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	private List<Activity> activities;
 
 	@NotNull
@@ -45,12 +44,13 @@ public class Event {
 	private User owner;
 
 	private boolean active;
-	
+
 	public void addActivity(Activity activity) {
 		this.activities.add(activity);
 	}
-	
-	public Event () {}
+
+	public Event() {
+	}
 
 	public Event(Long id, @NotBlank String name, @NotBlank String summary, String thumbPath, List<Activity> activities,
 			@NotNull LocalDateTime subscriptionStart, @NotNull LocalDateTime subscriptionEnd) {
@@ -69,11 +69,9 @@ public class Event {
 		this(id, name, summary, thumbPath, activities, subscriptionStart, subscriptionEnd);
 		this.owner = owner;
 	}
-	
+
 	public boolean checkExistence(Activity activity) {
-		return this.getActivities()
-				.stream()
-				.anyMatch(act -> act.getId().equals(activity.getId()));
+		return this.getActivities().stream().anyMatch(act -> act.getId().equals(activity.getId()));
 	}
 
 	public Long getId() {
@@ -139,7 +137,7 @@ public class Event {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	public List<Activity> getActivities() {
 		return activities;
 	}

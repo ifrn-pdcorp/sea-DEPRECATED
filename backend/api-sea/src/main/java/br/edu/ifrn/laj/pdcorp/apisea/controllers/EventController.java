@@ -22,22 +22,25 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.edu.ifrn.laj.pdcorp.apisea.data.UploadFileResponse;
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.EventDTO;
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.UploadFileDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
+import br.edu.ifrn.laj.pdcorp.apisea.services.ActivityService;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Event Endpoint", description = "Control of events", tags="Event Endpoint")
+@Api(value = "Event Endpoint", description = "Control of events", tags = "Event Endpoint")
 @RestController
 @RequestMapping("/events")
 public class EventController {
 
 	@Autowired
 	private EventService eventService;
+	@Autowired
+	private ActivityService actvityService;
 
 	@ApiOperation(value = "Listar todos os eventos")
 	@GetMapping
@@ -75,10 +78,10 @@ public class EventController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@ApiOperation(value = "Ativar atividade por id do evento")
 	@PutMapping("/{idEvent}/activities")
-	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity){
+	public ResponseEntity<?> addActivity(@PathVariable Long idEvent, @RequestBody Activity activity) {
 		try {
 			return ResponseEntity.ok(eventService.addActivity(activity, idEvent));
 		} catch (ApiEventException e) {
@@ -95,36 +98,38 @@ public class EventController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+
 	@ApiOperation(value = "Fazer upload de arquivos para atividade específica por id do evento e id da atividade")
 	@PostMapping("/{idEvent}/{idActivity}/uploadFile")
-	public UploadFileResponse uploadFile(@PathVariable Long idEvent, @PathVariable Long idActivity, Principal principal, @RequestParam("file") MultipartFile file) throws ApiEventException, ApiSubscriptionException {
-		String fileName = eventService.storeFile(idEvent, idActivity, principal, file);
+	public UploadFileDTO uploadFile(@PathVariable Long idEvent, @PathVariable Long idActivity, Principal principal,
+			@RequestParam("file") MultipartFile file) throws ApiEventException, ApiSubscriptionException {
+		String fileName = actvityService.storeFile(idEvent, idActivity, principal, file);
 		String fileDownloadUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-				.path("/downloadFile/")
-				.path(fileName)
-				.toUriString();
-		
-		return new UploadFileResponse(fileName, fileDownloadUrl, file.getContentType(), file.getSize());
+				.path("events" + "/" + idEvent + "/" + idActivity + "/downloadFile/").path(fileName).toUriString();
+
+		actvityService.saveFileDb(fileName.toString(), file.getContentType(), file.getSize(), idActivity);
+		return new UploadFileDTO(fileName.toString(), fileDownloadUrl, file.getContentType(), file.getSize());
 	}
-	
+
 	@ApiOperation(value = "Fazer download de arquivos por id do evento e id da inscrição")
-	@GetMapping("/{idEvent}/{idSubscription}/downloadFile/{fileName:.+}")
-	public ResponseEntity<Resource> downloadFile(@PathVariable Long idEvent, @PathVariable Long idSubscription, Principal principal, @PathVariable String fileName, HttpServletRequest request) throws ApiEventException, ApiSubscriptionException{
-		Resource resource = eventService.loadFileAsResource(idEvent, idSubscription, principal, fileName);
+	@GetMapping("/{idEvent}/{idActivity}/downloadFile/{fileName:.+}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable Long idEvent, @PathVariable Long idActivity,
+			Principal principal, @PathVariable String fileName, HttpServletRequest request)
+			throws ApiEventException, ApiSubscriptionException {
+		Resource resource = actvityService.loadFileAsResource(idEvent, idActivity, principal, fileName);
 		String contentType = null;
 		try {
 			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
 		} catch (Exception e) {
+			ResponseEntity.badRequest().body(e.getMessage());
 		}
-		if(contentType == null) {
+		if (contentType == null) {
 			contentType = "application/octet-stream";
 		}
-		
-		return ResponseEntity.ok()
-				.contentType(MediaType.parseMediaType(contentType))
+
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
-		
+
 	}
 }

@@ -9,30 +9,21 @@ import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.repositories.UserRepository;
-import br.edu.ifrn.laj.pdcorp.apisea.validators.AbstractValidationMediator;
-import br.edu.ifrn.laj.pdcorp.apisea.validators.user.UserValidationMediator;
 
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repository;
-	
-//	@Autowired
-//	private AbstractValidationMediator<User> validator;
-	
+
 	public UserDTO save(User user) throws ApiException {
-		
-//		if(validator.isInvalid(user)) {
-//			throw validator.getBusinessInvalidation().getCause();
-//		}
-		
-		return UserDTO.convertFromModel(repository.save(user)); 
+
+		return UserDTO.convertFromModel(repository.save(user));
 	}
-	
+
 	public UserDTO findByUsername(String email) throws ApiException {
 		User user = repository.findByEmail(email);
-		if(ObjectUtils.isEmpty(user)) {
+		if (ObjectUtils.isEmpty(user)) {
 			throw new ApiException(ExceptionMessages.USER_DOESNT_EXISTS_DB);
 		}
 		return UserDTO.convertFromModel(user);
@@ -40,12 +31,10 @@ public class UserService {
 
 	public User getByCredentials(String username, String password) throws ApiException {
 		User user = repository.findByEmailAndPassword(username, password);
-		if(ObjectUtils.isEmpty(user)) {
+		if (ObjectUtils.isEmpty(user)) {
 			throw new ApiException(ExceptionMessages.CREDENTIALS_IS_WORNG);
 		}
 		return user;
 	}
-	
-	
 
 }

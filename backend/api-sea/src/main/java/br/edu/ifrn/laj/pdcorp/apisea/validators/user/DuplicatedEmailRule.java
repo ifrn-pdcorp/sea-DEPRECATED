@@ -10,9 +10,9 @@ import br.edu.ifrn.laj.pdcorp.apisea.models.User;
 import br.edu.ifrn.laj.pdcorp.apisea.validators.BusinessRule;
 
 public class DuplicatedEmailRule implements BusinessRule {
-	
+
 	private User duplicatedUser;
-	
+
 	public DuplicatedEmailRule(User duplicatedUser) {
 		this.duplicatedUser = duplicatedUser;
 	}
