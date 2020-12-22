@@ -5,45 +5,60 @@
       <h1>Cadastre-se</h1>
       <hr />
 
+      <section v-if="formState === 'form submit'">
+        <notification-card
+        :id="9"
+        state = "ok"
+        msg= "Cadastro efetuado com sucesso!">
+        </notification-card>
+      </section>
       <section v-if="formState === 'submit clicked'">
         <notification-card
           :id="1"
+          state="error"
           msg="Preencha o campo Nome"
           v-if="!$v.user.name.required"
         ></notification-card>
         <notification-card
           :id="2"
+          state="error"
           v-if="!$v.user.email.required"
           msg="Preencha o campo Email"
           
         ></notification-card>
         <notification-card
           :id="3"
+          state="error"
           msg="Email invalido"
           v-if="!$v.user.email.email"
         ></notification-card>
         <notification-card
           :id="4"
+          state="error"
           msg="Preencha o campo Tipo de Usuario"
           v-if="!$v.user.type.required"
         ></notification-card>
         <notification-card
           :id="5"
+          state="error"
           msg="Preencha o campo Senha"
           v-if="!$v.user.password.required"
         ></notification-card>
         <notification-card
           :id="6"
+          state="error"
           msg="Confirme sua senha"
           v-if="!$v.checkPassword.required"
         ></notification-card>
         <notification-card
           :id="7"
+          state="error"
           msg="Sua senha deve conter de 8 à 15 caracteres"
           v-if="!$v.user.password.minLength || !$v.user.password.minLength"
         ></notification-card>
         <notification-card
           :id="8"
+          state="error"
           msg="As senhas não correspondem"
           v-if="$v.checkPassword.$model != $v.user.password.$model "
         ></notification-card>

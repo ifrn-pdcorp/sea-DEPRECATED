@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section class="error" :id="id">
+    <section class="notification" :id="id" :class="state">
       <p>{{ msg }}</p>
-      <button type="button" class="close" @click="fecharerro">x</button>
+      <button type="button" class="close" @click="fecharerro" :class="{ 'close-ok': state === 'ok' }" >x</button>
     </section>
   </div>
 </template>
@@ -13,6 +13,7 @@ export default {
   props: {
     msg: String,
     id: Number,
+    state: String
   },
 
   methods: {
@@ -25,5 +26,5 @@ export default {
 </script>
 
 <style>
-@import url("../../styles/notifications/error.css");
+@import url("../../styles/notifications/card.css");
 </style>
