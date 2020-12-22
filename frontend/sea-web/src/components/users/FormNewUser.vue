@@ -236,7 +236,7 @@
 </template>
 
 <script>
-//import UsersService from "../services/users";
+import UsersService from "../services/users";
 import {
   required,
   email,
@@ -303,23 +303,24 @@ export default {
         var imageSaved = this.saveImage();
         this.user.thumbPath = imageSaved;
 
-        
         console.log("Chamada para salvar na api");
-        this.formState = "form submit";
-
-        this.clearForm();
-     /* UsersService.save(this.user)
+        
+        
+        UsersService.save(this.user)
         .then(response => {
           console.log("Deu certo!");
           console.log(response);
+
+          this.formState = "form submit";
           this.clearForm();
         })
         .catch(e => {
           console.log("Deu errado!");
           console.log(e.response);
           this.rollbackSaveImage(imageSaved);
-        });*/
+        });
       }
+  
     },
 
 
