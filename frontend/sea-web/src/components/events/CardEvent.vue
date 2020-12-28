@@ -19,7 +19,12 @@
       </div>
     </div>
 
-    <router-link to="aboutevent" class="btn button"> Saiba mais </router-link>
+    <router-link
+      :to="{ name: 'EventDetail', params: { id: this.event.id } }"
+      class="btn button"
+    >
+      Saiba mais
+    </router-link>
   </div>
 </template>
 

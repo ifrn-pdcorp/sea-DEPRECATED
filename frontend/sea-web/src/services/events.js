@@ -5,6 +5,10 @@ export default {
         return http.get('events')
     },
 
+    get: (id) => {
+        return http.get('events/' + id)
+    },
+
     save: (event) => {
         return http.post('events', event)
     }
