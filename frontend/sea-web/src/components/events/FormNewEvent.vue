@@ -5,6 +5,33 @@
         <h1>Cadastrar Evento</h1>
         <hr />
 
+        <div class="class">
+          <figure class="image">
+            <img
+              v-if="thumbImageURL"
+              :src="thumbImageURL"
+              id="picprofile"
+              class="imagefile"
+            />
+            <img
+              v-else
+              src="../../assets/picevent.jpg"
+              alt="Avatar"
+              id="picprofile"
+              class="imagefile"
+            />
+            <div class="overlay">
+              <label class="text" for="editpiprofile">Escolher foto</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="editpiprofile"
+                id="editpiprofile"
+                @change="onImage($event)"
+              />
+            </div>
+          </figure>
+        </div>
         <div class="col-12 field">
           <label for="nome">Nome</label>
           <input
@@ -78,10 +105,13 @@
 
 <script>
 import EventService from "../../services/events";
+import UploadService from "../../services/uploads";
 export default {
   name: "FormNewEvent",
   data() {
     return {
+      thumbImage: null,
+      thumbImageURL: null,
       event: {
         name: "",
         summary: "",
@@ -95,6 +125,9 @@ export default {
     async save() {
       if (this.validate()) {
         // Salvar a imagem
+        await UploadService.saveImage(this.thumbImage).then((response) => {
+          this.event.thumbPath = response.data;
+        });
         // Salvar o evento
         await EventService.save(this.event).then((response) => {
           this.cleanForm();
@@ -109,6 +142,20 @@ export default {
 
     cleanForm() {
       this.event = {};
+      this.thumbImage = null;
+      this.thumbImageURL = null;
+    },
+
+    onImage(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      const file = e.target.files[0];
+      if (!file.type.match("image.*")) {
+        return;
+      }
+      this.thumbImage = file;
+      this.thumbImageURL = URL.createObjectURL(file);
     },
   },
 };

@@ -1,7 +1,8 @@
 <template>
   <div class="card">
     <div class="image">
-      <img v-bind:src="event.thumbPath" />
+      <img v-if="event.thumbPathURL" v-bind:src="event.thumbPathURL" />
+      <img v-else src="../../assets/picevent.jpg" />
     </div>
 
     <div class="data">
@@ -31,10 +32,6 @@ export default {
       var d = new Date(date);
       return d.toLocaleDateString();
     },
-  },
-  mounted() {
-    // console.log(this.event.subscriptionEnd)
-    // this.formattDate(this.event.subscriptionEnd)
   },
 };
 </script>

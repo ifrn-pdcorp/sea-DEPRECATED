@@ -14,6 +14,7 @@
 <script>
 import CardEvent from "@/components/events/CardEvent.vue";
 import EventsService from "../../services/events";
+import UploadService from "../../services/uploads";
 export default {
   name: "Events",
   data() {
@@ -23,16 +24,30 @@ export default {
   },
   methods: {
     async getEvents() {
+      var data;
       await EventsService.getAll().then((response) => {
-        this.events = response.data;
+        data = response.data;
       });
+
+      for (let i = 0; i < data.length; i++) {
+        var event = data[i];
+        if (event.thumbPath) {
+          await UploadService.getImage(event.thumbPath).then((response) => {
+            event.thumbPathURL = URL.createObjectURL(
+              new Blob([response.data])
+            );
+          });
+        }
+      }
+
+      this.events = data;
     },
   },
   components: {
     CardEvent,
   },
-  mounted() {
-    this.getEvents();
+  async mounted() {
+    await this.getEvents();
   },
 };
 </script>
