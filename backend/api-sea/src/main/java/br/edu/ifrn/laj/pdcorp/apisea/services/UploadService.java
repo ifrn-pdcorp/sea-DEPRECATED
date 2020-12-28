@@ -3,6 +3,7 @@ package br.edu.ifrn.laj.pdcorp.apisea.services;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class UploadService {
 	private UploadConfig uploadConfig;
 
 	public String uploadThumbnail(MultipartFile file, TypeImage type) throws IOException {
-		StringBuilder nameWithPrefix = new StringBuilder(type.getPrefix()).append(file.getOriginalFilename());
+		UUID idImage = UUID.randomUUID();
+		StringBuilder nameWithPrefix = new StringBuilder(type.getPrefix()).append(file.getOriginalFilename()).append(idImage.toString());
 		StringBuilder path = new StringBuilder(uploadConfig.getSource());
 		path.append(File.separator).append(nameWithPrefix);
 		Path source = Paths.get(path.toString());

@@ -26,6 +26,8 @@ public class User {
 	private String name;
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
+	@Column(name = "thumb_avatar")
+	private String thumbPath;
 	@Column(name = "password", nullable = false)
 	private String password;
 	private String school;
@@ -52,6 +54,14 @@ public class User {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getThumbPath() {
+		return thumbPath;
+	}
+
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
 	}
 	
 	public String getEmail() {
@@ -101,5 +111,6 @@ public class User {
 	public void setEmailVerified(boolean emailVerified) {
 		this.emailVerified = emailVerified;
 	}
+
 
 }
