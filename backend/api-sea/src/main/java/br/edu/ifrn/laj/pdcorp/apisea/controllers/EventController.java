@@ -27,6 +27,8 @@ import br.edu.ifrn.laj.pdcorp.apisea.dtos.UploadFileDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
 import br.edu.ifrn.laj.pdcorp.apisea.models.Activity;
+import br.edu.ifrn.laj.pdcorp.apisea.models.File;
+import br.edu.ifrn.laj.pdcorp.apisea.repositories.FileRepository;
 import br.edu.ifrn.laj.pdcorp.apisea.services.ActivityService;
 import br.edu.ifrn.laj.pdcorp.apisea.services.EventService;
 import io.swagger.annotations.Api;
@@ -41,6 +43,8 @@ public class EventController {
 	private EventService eventService;
 	@Autowired
 	private ActivityService actvityService;
+	@Autowired
+	private FileRepository fileRepository;
 
 	@ApiOperation(value = "Listar todos os eventos")
 	@GetMapping
@@ -108,7 +112,10 @@ public class EventController {
 				.path("events" + "/" + "event" + "/" + idEvent + "/" + "activity" + "/" + idActivity + "/downloadFile/")
 				.path(fileName).toUriString();
 
-		actvityService.saveFileDb(fileName.toString(), file.getContentType(), file.getSize(), idActivity);
+		File fileUpload = new File(fileName.toString(), file.getContentType(), file.getSize(), idActivity);
+
+		fileRepository.save(fileUpload);
+
 		return new UploadFileDTO(fileName.toString(), fileDownloadUrl, file.getContentType(), file.getSize());
 	}
 

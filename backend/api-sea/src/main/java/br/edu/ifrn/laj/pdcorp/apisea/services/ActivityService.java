@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.edu.ifrn.laj.pdcorp.apisea.configs.UploadConfig;
+import br.edu.ifrn.laj.pdcorp.apisea.dtos.UploadFileDTO;
 import br.edu.ifrn.laj.pdcorp.apisea.enums.ExceptionMessages;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiEventException;
 import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiSubscriptionException;
@@ -79,11 +80,6 @@ public class ActivityService {
 		if (optional.isEmpty())
 			throw new ApiEventException(ExceptionMessages.EVENT_DOESNT_EXISTS_DB);
 		return optional.get();
-	}
-
-	public Object saveFileDb(String fileName, String fileType, long fileSize, long idActivity) {
-		File file = new File(fileName, fileType, fileSize, idActivity);
-		return fileRepository.save(file);
 	}
 
 	public String storeFile(Long idEvent, Long idActivity, Principal principal, MultipartFile file)

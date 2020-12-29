@@ -45,4 +45,5 @@ public class UploadFileDTO {
 	public void setFileSize(long fileSize) {
 		this.fileSize = fileSize;
 	}
+
 }
