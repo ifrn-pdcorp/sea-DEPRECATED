@@ -236,7 +236,7 @@
 </template>
 
 <script>
-import UsersService from "../services/users";
+import UsersService from "../../services/users";
 import {
   required,
   email,
@@ -245,7 +245,7 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 
-import NotificationCard from ".././notifications/Card";
+import NotificationCard from "../../notifications/Card";
 
 export default {
   name: "FormNewUser",

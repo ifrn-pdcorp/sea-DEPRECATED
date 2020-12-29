@@ -2,7 +2,7 @@
   <div>
     <section class="notification" :id="id" :class="state">
       <p>{{ msg }}</p>
-      <button type="button" class="close" @click="fecharerro" :class="{ 'close-ok': state === 'ok' }" >x</button>
+      <button type="button" class="close" @click="close" :class="{ 'close-ok': state === 'ok' }" >x</button>
     </section>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
   },
 
   methods: {
-    fecharerro() {
+    close() {
       var erro = document.getElementById(this.id);
       erro.style.display = "none";
     },
