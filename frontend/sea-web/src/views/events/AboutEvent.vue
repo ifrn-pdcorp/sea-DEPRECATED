@@ -48,7 +48,6 @@ export default {
   },
   async mounted() {
     await this.getEvent();
-    console.log(this.event);
   },
 };
 </script>
