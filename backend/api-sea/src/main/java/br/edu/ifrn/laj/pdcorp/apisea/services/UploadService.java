@@ -22,7 +22,7 @@ public class UploadService {
 
 	public String uploadThumbnail(MultipartFile file, TypeImage type) throws IOException {
 		UUID idImage = UUID.randomUUID();
-		StringBuilder nameWithPrefix = new StringBuilder(type.getPrefix()).append(file.getOriginalFilename()).append(idImage.toString());
+		StringBuilder nameWithPrefix = new StringBuilder(type.getPrefix()).append(idImage.toString()).append(file.getOriginalFilename());
 		StringBuilder path = new StringBuilder(uploadConfig.getSource());
 		path.append(File.separator).append(nameWithPrefix);
 		Path source = Paths.get(path.toString());
