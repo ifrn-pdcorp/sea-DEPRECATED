@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifrn.laj.pdcorp.apisea.dtos.SubscriptionDTO;
@@ -72,7 +74,8 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
 	}
 
-	public SubscriptionDTO add(Principal principal, Subscription subscription) throws ApiSubscriptionException {
+	public SubscriptionDTO save(Principal principal, Subscription subscription)
+			throws ApiSubscriptionException, ApiException {
 		User user = this.findUserAuthenticated(principal);
 		Event event = this.findEventById(subscription.getEvent().getId());
 
@@ -92,7 +95,12 @@ public class SubscriptionService {
 
 		subscription.setLastChangeDate(actualLocalDateTime);
 
-		return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
+		try {
+			return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
+		} catch (DataIntegrityViolationException ex) {
+			throw new ApiException(
+					ExceptionMessages.DATA_VALIDATION.getDescription().concat(ex.getMostSpecificCause().getMessage()));
+		}
 	}
 
 	public SubscriptionDTO update(Principal principal, Long id, Subscription subscription)

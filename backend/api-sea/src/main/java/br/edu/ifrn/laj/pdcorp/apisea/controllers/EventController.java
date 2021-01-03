@@ -6,10 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import br.edu.ifrn.laj.pdcorp.apisea.exceptions.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,21 +66,21 @@ public class EventController {
 
 	@ApiOperation(value = "Adicionar evento")
 	@PostMapping
-	public ResponseEntity<?> add(Principal principal, @RequestBody @Valid EventDTO event) {
+	public ResponseEntity<?> save(Principal principal, @RequestBody EventDTO event) {
 
 		try {
-			return ResponseEntity.ok(eventService.add(principal, event.convertToModel()));
-		} catch (ApiEventException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.ok(eventService.save(principal, event.convertToModel()));
+		} catch (ApiEventException | ApiException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 		}
 	}
 
 	@ApiOperation(value = "Atualizar evento por id")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody @Valid EventDTO event) {
+	public ResponseEntity<?> update(Principal principal, @PathVariable Long id, @RequestBody EventDTO event) {
 		try {
 			return ResponseEntity.ok(eventService.update(principal, id, event.convertToModel()));
-		} catch (ApiEventException e) {
+		} catch (ApiEventException | ApiException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
@@ -103,7 +105,7 @@ public class EventController {
 		}
 	}
 
-	@ApiOperation(value = "Fazer upload de arquivos para atividade específica por id do evento e id da atividade")
+	@ApiOperation(value = "Fazer upload de arquivos para atividade especifica por id do evento e id da atividade")
 	@PostMapping("/event/{idEvent}/activity/{idActivity}/uploadFile")
 	public UploadFileDTO uploadFile(@PathVariable Long idEvent, @PathVariable Long idActivity, Principal principal,
 			@RequestParam("file") MultipartFile file) throws ApiEventException, ApiSubscriptionException {
@@ -119,15 +121,16 @@ public class EventController {
 		return new UploadFileDTO(fileName.toString(), fileDownloadUrl, file.getContentType(), file.getSize());
 	}
 
-	@ApiOperation(value = "Fazer download de arquivos por id do evento e id da inscrição")
+	@ApiOperation(value = "Fazer download de arquivos por id do evento e id da inscricao")
 	@GetMapping("/event/{idEvent}/activity/{idActivity}/downloadFile/{fileName:.+}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable Long idEvent, @PathVariable Long idActivity,
 			Principal principal, @PathVariable String fileName, HttpServletRequest request)
 			throws ApiEventException, ApiSubscriptionException {
-		Resource resource = actvityService.loadFileAsResource(idEvent, idActivity, principal, fileName);
+		Resource resource = (Resource) actvityService.loadFileAsResource(idEvent, idActivity, principal, fileName);
 		String contentType = null;
 		try {
-			contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+			contentType = request.getServletContext()
+					.getMimeType(((org.springframework.core.io.Resource) resource).getFile().getAbsolutePath());
 		} catch (Exception e) {
 			ResponseEntity.badRequest().body(e.getMessage());
 		}
@@ -135,8 +138,9 @@ public class EventController {
 			contentType = "application/octet-stream";
 		}
 
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
-				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).header(
+				HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"" + ((org.springframework.core.io.Resource) resource).getFilename() + "\"")
 				.body(resource);
 
 	}
