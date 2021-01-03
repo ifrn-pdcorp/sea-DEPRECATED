@@ -37,8 +37,8 @@ public class TokenAuthenticationUtil {
 	 * 
 	 * @param response is the HTTP response of server.
 	 * @param username must be the right username of one authenticated user.
-	 * @throws IOException
-	 * 
+	 * @throws IOException 
+	 *  
 	 **/
 	public static void addAuthentication(HttpServletResponse response, String username) throws IOException {
 		String jwt = Jwts.builder().setSubject(username)

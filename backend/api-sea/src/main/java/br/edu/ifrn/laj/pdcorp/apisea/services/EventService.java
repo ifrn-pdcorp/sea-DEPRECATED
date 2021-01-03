@@ -42,7 +42,6 @@ public class EventService {
 			throw new ApiException(
 					ExceptionMessages.DATA_VALIDATION.getDescription().concat(ex.getMostSpecificCause().getMessage()));
 		}
-
 	}
 
 	public EventDTO update(Event event) {

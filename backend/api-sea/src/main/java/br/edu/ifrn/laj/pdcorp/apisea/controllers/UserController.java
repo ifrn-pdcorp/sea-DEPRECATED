@@ -27,6 +27,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+
 	@ApiOperation(value = "Adicionar ou atualizar usuario")
 	@PostMapping
 	public ResponseEntity<?> saveOrEditUser(@RequestBody User user) {
@@ -37,7 +38,6 @@ public class UserController {
 		}
 	}
 
-	@ApiOperation(value = "Carrega os dados do usuario que esta logado na sessao")
 	@GetMapping("/loadsession")
 	public ResponseEntity<?> loadSession(Authentication principal) {
 		try {
