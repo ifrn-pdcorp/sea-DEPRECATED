@@ -1,0 +1,27 @@
+.invalid-form input {
+    border: 1px solid rgba(199, 16, 16, .6);
+    box-shadow: 0 0 0 0.2rem rgba(199, 16, 16, 0.25);
+}
+
+.invalid-form .image {
+    border: 1px solid rgba(199, 16, 16, .6);
+    box-shadow: 0 0 0 0.2rem rgba(199, 16, 16, 0.25);
+}
+
+.invalid-form label {
+    color: rgba(199, 16, 16);
+}
+
+.invalid-field select {
+    border: 1px solid rgba(199, 16, 16, .6);
+    box-shadow: 0 0 0 0.2rem rgba(199, 16, 16, 0.25);
+}
+
+.invalid-field input {
+    border: 1px solid rgba(199, 16, 16, .6);
+    box-shadow: 0 0 0 0.2rem rgba(199, 16, 16, 0.25);
+}
+
+.invalid-field label {
+    color: rgba(199, 16, 16);
+}

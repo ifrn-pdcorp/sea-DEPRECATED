@@ -50,11 +50,7 @@ a:hover {
   margin-left: 3%;
 }
 
-/* ### INPUT COLORS ###*/
-.form-control:focus {
-  border: 1px solid #95389e;
-  box-shadow: 0 0 0 0.2rem rgba(149, 56, 158, 0.25);
-}
+
 
 /* ### BUTTONS ###*/
 @import url("styles/buttons.css");
