@@ -212,7 +212,7 @@ export default {
 
         // Salvar o evento
          await EventService.save(this.event).then((response) => {
-        console.log("Salvou o cara!");
+        console.log("Salvou o cara!" + response);
         this.formState = "form submit";
         this.cleanForm();
         });
