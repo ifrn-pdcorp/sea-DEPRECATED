@@ -2,7 +2,6 @@ package br.edu.ifrn.laj.pdcorp.apisea.services;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,16 +45,16 @@ public class SubscriptionService {
 
 		return SubscriptionDTO.convertFromModel(subscription);
 	}
-	
-	
-	public SubscriptionDTO registerNewActivity(Principal principal, Long activityId, Long idSubscription) throws ApiSubscriptionException, ApiEventException {
+
+	public SubscriptionDTO registerNewActivity(Principal principal, Long activityId, Long idSubscription)
+			throws ApiSubscriptionException, ApiEventException {
 		SubscriptionDTO validated = findById(principal, idSubscription);
 		Subscription subscription = this.findSubscriptionById(validated.getId());
 		Activity activity = this.activityService.findById(activityId);
-		
+
 		subscription.registerNewActivity(activity);
 		activity.addParticipant(subscription);
-		
+
 		this.activityService.update(activity);
 		return this.update(principal, subscription.getId(), subscription);
 	}
@@ -75,13 +74,14 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
 	}
 
-	public SubscriptionDTO save(Principal principal, Subscription subscription) throws ApiSubscriptionException, ApiException {
+	public SubscriptionDTO save(Principal principal, Subscription subscription)
+			throws ApiSubscriptionException, ApiException {
 		User user = this.findUserAuthenticated(principal);
 		Event event = this.findEventById(subscription.getEvent().getId());
 
-		if(!event.isActive())
+		if (!event.isActive())
 			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
-		
+
 		LocalDateTime actualLocalDateTime = LocalDateTime.now();
 
 		if (!this.isLocalDateTimeValidForSubscriptionInEvent(actualLocalDateTime, event))
@@ -97,9 +97,9 @@ public class SubscriptionService {
 
 		try {
 			return SubscriptionDTO.convertFromModel(subscriptionRepository.save(subscription));
-		} catch (DataIntegrityViolationException ex){
-			throw new ApiException(ExceptionMessages.DATA_VALIDATION.getDescription().concat(
-					ex.getMostSpecificCause().getMessage()));
+		} catch (DataIntegrityViolationException ex) {
+			throw new ApiException(
+					ExceptionMessages.DATA_VALIDATION.getDescription().concat(ex.getMostSpecificCause().getMessage()));
 		}
 	}
 
@@ -107,10 +107,10 @@ public class SubscriptionService {
 			throws ApiSubscriptionException {
 		Subscription existent = this.findSubscriptionById(id);
 		User user = this.findUserAuthenticated(principal);
-		
-		if(!existent.getEvent().isActive())
+
+		if (!existent.getEvent().isActive())
 			throw new ApiSubscriptionException(ExceptionMessages.EVENT_IS_NOT_ACTIVE_FOR_SUBSCRIPTION);
-		
+
 		LocalDateTime actualLocalDateTime = LocalDateTime.now();
 
 		if (!this.isLocalDateTimeValidForSubscriptionInEvent(actualLocalDateTime, existent.getEvent()))

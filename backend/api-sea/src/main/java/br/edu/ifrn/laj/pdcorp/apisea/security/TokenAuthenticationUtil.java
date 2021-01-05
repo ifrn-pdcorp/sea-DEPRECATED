@@ -20,6 +20,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
  * This class is responsible about any operations on JWT requests.
+ * 
  * @author Dannylo Johnathan
  * @since 22/05/20
  * 
@@ -32,7 +33,8 @@ public class TokenAuthenticationUtil {
 	private static final String HEADER_STRING = "Authorization";
 
 	/**
-	 * Add the JWT token generated after login in response HTTP. 
+	 * Add the JWT token generated after login in response HTTP.
+	 * 
 	 * @param response is the HTTP response of server.
 	 * @param username must be the right username of one authenticated user.
 	 * @throws IOException 
@@ -54,28 +56,28 @@ public class TokenAuthenticationUtil {
 		String token = request.getHeader(HEADER_STRING);
 		String user = "";
 		if (!StringUtils.isEmpty(token)) {
-				try {
-					 user = Jwts.parser()
-							.setSigningKey(SECRET)
-							.parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim())
-							.getBody()
-							.getSubject();
+			try {
+				user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "").trim())
+						.getBody().getSubject();
 
-				} catch (MalformedJwtException | SignatureException | UnsupportedJwtException ex){
-					/* Em casos de tokens maliciosos (gerados randomicamente, por exemplo), o método
-					* devera lançar uma destas exceptions, e para que a aplicação não quebre, as exceptions
-					* devem ser capturadas, invalidando o usuário que tenta logar com uma string vazia, que ao
-					* chegar no filter, lançará um 'access denied.' */
-					user = "";
-				}
+			} catch (MalformedJwtException | SignatureException | UnsupportedJwtException ex) {
+				/*
+				 * Em casos de tokens maliciosos (gerados randomicamente, por exemplo), o
+				 * método devera lançar uma destas exceptions, e para que a aplicação não
+				 * quebre, as exceptions devem ser capturadas, invalidando o usuário que tenta
+				 * logar com uma string vazia, que ao chegar no filter, lançará um 'access
+				 * denied.'
+				 */
+				user = "";
+			}
 
 			if (!StringUtils.isEmpty(user)) {
-				return new UsernamePasswordAuthenticationToken(user, token.replace(TOKEN_PREFIX, "").trim(), Collections.emptyList());	
+				return new UsernamePasswordAuthenticationToken(user, token.replace(TOKEN_PREFIX, "").trim(),
+						Collections.emptyList());
 			}
 			return null;
-		} 
+		}
 		return null;
 	}
-	
 
 }

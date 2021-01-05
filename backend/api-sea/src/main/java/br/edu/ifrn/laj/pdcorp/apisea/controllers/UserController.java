@@ -27,7 +27,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "Adicionar ou atualizar usuário")
+
+	@ApiOperation(value = "Adicionar ou atualizar usuario")
 	@PostMapping
 	public ResponseEntity<?> saveOrEditUser(@RequestBody User user) {
 		try {
@@ -37,7 +38,6 @@ public class UserController {
 		}
 	}
 
-	@ApiOperation(value = "Carrega os dados do usuário que está logado na sessão")
 	@GetMapping("/loadsession")
 	public ResponseEntity<?> loadSession(Authentication principal) {
 		try {
@@ -51,7 +51,7 @@ public class UserController {
 		}
 	}
 
-	@ApiOperation(value = "Visualizar usuário por email")
+	@ApiOperation(value = "Visualizar usuario por email")
 	@GetMapping("/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable("email") String email) {
 		try {

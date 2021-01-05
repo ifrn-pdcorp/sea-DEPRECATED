@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "config.upload")
 public class UploadConfig {
-	
+
 	private String source;
-	
+
 	private String rootVirtualAddress;
 
 	public String getSource() {
@@ -27,6 +27,4 @@ public class UploadConfig {
 		this.rootVirtualAddress = rootVirtualAddress;
 	}
 
-	
-	
 }

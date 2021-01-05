@@ -15,14 +15,15 @@ public class SubscriptionDTO {
 	private UserDTO user;
 
 	private EventDTO event;
-	
+
 	private List<Activity> activities;
-	
+
 	public SubscriptionDTO() {
 		super();
 	}
 
-	public SubscriptionDTO(Long id, LocalDateTime lastChangeDate, UserDTO user, EventDTO event, List<Activity> activities) {
+	public SubscriptionDTO(Long id, LocalDateTime lastChangeDate, UserDTO user, EventDTO event,
+			List<Activity> activities) {
 		this();
 		this.id = id;
 		this.lastChangeDate = lastChangeDate;
@@ -30,25 +31,22 @@ public class SubscriptionDTO {
 		this.event = event;
 		this.activities = activities;
 	}
-	
+
 	public SubscriptionDTO(Subscription subscription) {
-		this(subscription.getId(),
-				subscription.getLastChangeDate(),
-				UserDTO.convertFromModel(subscription.getUser()),
-				EventDTO.convertFromModel(subscription.getEvent()),
-				subscription.getActivities());
+		this(subscription.getId(), subscription.getLastChangeDate(), UserDTO.convertFromModel(subscription.getUser()),
+				EventDTO.convertFromModel(subscription.getEvent()), subscription.getActivities());
 	}
-	
+
 	public static SubscriptionDTO convertFromModel(Subscription subscription) {
 		return new SubscriptionDTO(subscription);
 	}
-	
-	public static List<SubscriptionDTO> convertFromModel(List<Subscription> subscriptions){
+
+	public static List<SubscriptionDTO> convertFromModel(List<Subscription> subscriptions) {
 		List<SubscriptionDTO> result = new ArrayList<SubscriptionDTO>();
-		
-		for(Subscription s : subscriptions)
+
+		for (Subscription s : subscriptions)
 			result.add(SubscriptionDTO.convertFromModel(s));
-		
+
 		return result;
 	}
 
@@ -87,7 +85,5 @@ public class SubscriptionDTO {
 	public List<Activity> getActivities() {
 		return activities;
 	}
-	
-	
 
 }
