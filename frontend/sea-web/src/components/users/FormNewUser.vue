@@ -245,7 +245,7 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 
-import NotificationCard from "../../notifications/Card";
+import NotificationCard from "../notifications/Card";
 
 export default {
   name: "FormNewUser",
@@ -346,57 +346,4 @@ export default {
 <style scoped>
 @import url("../../styles/notifications/invalidField.css");
 
-/* ### PIC PROFILE ###*/
-.container-form .image {
-  width: 100%;
-  min-height: 170px;
-  max-height: 170px;
-  height: auto;
-  border-radius: 5%;
-  overflow: hidden;
-  box-shadow: 0px 0px 5px #888888;
-  position: relative;
-}
-
-.container-form .image img {
-  width: 100%;
-  height: 170px;
-  object-fit: cover;
-}
-
-.container-form .image .overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 0.5s;
-  background-color: #95389e;
-}
-.container-form .image:hover .overlay {
-  opacity: 0.7;
-}
-.container-form .overlay input {
-  opacity: 0;
-}
-.container-form .overlay .edit {
-  opacity: 0;
-  position: absolute;
-  z-index: -1;
-}
-.container-form .overlay .text {
-  color: white;
-  font-size: 15pt;
-  line-height: 130%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: center;
-  cursor: pointer;
-}
 </style>
