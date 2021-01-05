@@ -4,8 +4,8 @@
       <form @submit.prevent="save">
         <h1>Cadastrar Evento</h1>
         <hr />
-
-        <div class="class">
+        <div class="row" style="justify-content: center">
+        <div class=" field col-7">
           <figure class="image">
             <img
               v-if="thumbImageURL"
@@ -31,6 +31,7 @@
               />
             </div>
           </figure>
+        </div>
         </div>
         <div class="col-12 field">
           <label for="nome">Nome</label>
