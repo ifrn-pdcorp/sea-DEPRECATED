@@ -72,9 +72,7 @@ export default {
       };
 
       await SubscriptionService.save(newSubscription)
-        .then((response) => {
-          console.log(response);
-        })
+        .then()
         .catch((e) => {
           alert(e.response.data);
         });
