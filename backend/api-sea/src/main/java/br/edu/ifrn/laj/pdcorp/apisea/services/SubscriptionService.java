@@ -74,6 +74,16 @@ public class SubscriptionService {
 		return SubscriptionDTO.convertFromModel(subscriptionRepository.findAllByUser(user));
 	}
 
+	public SubscriptionDTO findByUserAndEventId(Principal principal, Long eventId) throws ApiSubscriptionException {
+		Event event = this.findEventById(eventId);
+		User user = this.findUserAuthenticated(principal);
+		Subscription subscription = subscriptionRepository.findByUserAndEvent(user, event);
+		if (subscription == null) {
+			return null;
+		}
+		return SubscriptionDTO.convertFromModel(subscription);
+	}
+
 	public SubscriptionDTO save(Principal principal, Subscription subscription)
 			throws ApiSubscriptionException, ApiException {
 		User user = this.findUserAuthenticated(principal);

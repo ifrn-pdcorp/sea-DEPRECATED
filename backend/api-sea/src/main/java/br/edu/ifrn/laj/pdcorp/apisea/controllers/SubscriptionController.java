@@ -42,7 +42,6 @@ public class SubscriptionController {
 		}
 	}
 
-
 	@ApiOperation(value = "Listar todos os usuarios por id")
 	@GetMapping
 	public ResponseEntity<?> findAllByUserId(Principal principal) {
@@ -52,7 +51,6 @@ public class SubscriptionController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-
 
 	@ApiOperation(value = "Visualizar inscricoes por id do evento")
 	@GetMapping("/events/{eventId}")
@@ -64,6 +62,15 @@ public class SubscriptionController {
 		}
 	}
 
+	@ApiOperation(value = "Visualizar inscricão por usuário e id do evento")
+	@GetMapping("/users/events/{eventId}")
+	public ResponseEntity<?> findByUserAndEventId(Principal principal, @PathVariable Long eventId) {
+		try {
+			return ResponseEntity.ok(subscriptionService.findByUserAndEventId(principal, eventId));
+		} catch (ApiSubscriptionException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
 
 	@ApiOperation(value = "Adicionar inscricao")
 	@PostMapping
