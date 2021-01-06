@@ -61,12 +61,10 @@ export default {
   name: "CardAboutEvent",
   methods: {
     async saveSubscription() {
-      console.log("chamou no componente o salvou");
       this.$emit("saveSubscription");
     },
 
     async deleteSubscription() {
-      console.log("chamou no componente o desinscrever");
       this.$emit("deleteSubscription");
     },
 
