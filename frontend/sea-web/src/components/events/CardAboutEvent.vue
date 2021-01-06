@@ -32,6 +32,24 @@
             >
           </p>
         </div>
+        <div class="row data">
+          <p>
+            <button
+              v-if="!subscription"
+              @click.prevent="saveSubscription"
+              class="btn button"
+            >
+              Inscrever-se
+            </button>
+            <button
+              v-else
+              @click.prevent="deleteSubscription"
+              class="btn button btn-cancel"
+            >
+              Cancelar Inscrição
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -39,9 +57,19 @@
 
 <script>
 export default {
-  props: ["event"],
+  props: ["event", "subscription"],
   name: "CardAboutEvent",
   methods: {
+    async saveSubscription() {
+      console.log("chamou no componente o salvou");
+      this.$emit("saveSubscription");
+    },
+
+    async deleteSubscription() {
+      console.log("chamou no componente o desinscrever");
+      this.$emit("deleteSubscription");
+    },
+
     formattDate(date) {
       var d = new Date(date);
       return d.toLocaleDateString();
